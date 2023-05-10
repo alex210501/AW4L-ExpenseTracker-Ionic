@@ -1,0 +1,21 @@
+<ion-card class="login-form">
+  <ion-card-header class="login-title">
+    <ion-card-title>Login</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <!-- <ion-form-field class="login-input"> -->
+      <!-- <ion-label>Username</ion-label> -->
+      <ion-input label="Username" type="text" [(ngModel)]="credentials.username" />
+    <!-- </ion-form-field> -->
+    <!-- <ion-form-field class="login-input"> -->
+      <!-- <ion-label>Password</ion-label> -->
+      <ion-input label="Password" type="password" [(ngModel)]="credentials.password" />
+    <!-- </ion-form-field> -->
+    <!-- <ion-card-actions class="login-button">
+      <button ion-raised-button class="buttons" color="primary" (click)="onLogin($event)">Connect</button>
+      <button ion-raised-button class="buttons" color="primary" (click)="goToSignUp($event)">Sign Up</button>
+    </ion-card-actions> -->
+    <ion-button (click)="onLogin()">Connect</ion-button>
+    <ion-button (click)="goToSignUp()">Sign Up</ion-button>
+  </ion-card-content>
+</ion-card>
