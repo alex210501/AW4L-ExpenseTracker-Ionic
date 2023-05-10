@@ -5,7 +5,7 @@ import { Expense } from '../models/expense';
 import { Space } from '../models/space';
 
 
-const debug = false;
+const debug = true;
 
 @Injectable({
   providedIn: 'root'

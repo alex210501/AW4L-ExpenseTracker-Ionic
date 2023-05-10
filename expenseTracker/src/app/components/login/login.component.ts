@@ -15,8 +15,8 @@ export class LoginComponent {
   constructor(private router: Router, private apiService: ApiService){}
 
   onLogin() {
-    // this.apiService.login(this.credentials).subscribe(_ => this.router.navigate(['spaces']));
-    this.apiService.login(this.credentials).subscribe(() => {});
+    this.apiService.login(this.credentials).subscribe(_ => this.router.navigate(['spaces']));
+    // this.apiService.login(this.credentials).subscribe(() => {});
   }
 
   goToSignUp() {

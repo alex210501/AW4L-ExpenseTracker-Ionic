@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()" [strong]="true">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Create space</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCreate()" [strong]="true">Create</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="modal-content">
+  <ion-input label="Name" [(ngModel)]="spaceName"/>
+  <ion-input label="Description" [(ngModel)]="spaceDescription"/>
+</ion-content>
