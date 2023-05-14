@@ -1,0 +1,85 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span *ngIf="expense">{{expense.expense_description}}</span>
+  <ng-template #elseBlock>No name</ng-template>
+</mat-toolbar>
+
+<table *ngIf="expense">
+  <tr>
+    <td>Description</td>
+    <td>
+      <span *ngIf="!editMode; else editModeDesc">{{expense.expense_description}}</span>
+      <ng-template #editModeDesc>
+        <mat-form-field >
+          <mat-label>Description</mat-label>
+          <input matInput type="text" [(ngModel)]="expense.expense_description">
+        </mat-form-field>
+      </ng-template>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Cost</td>
+    <td>
+      <span *ngIf="!editMode; else editModeCost">{{expense.expense_cost}}</span>
+      <ng-template #editModeCost>
+        <mat-form-field>
+          <mat-label>Cost</mat-label>
+          <input matInput type="text" [(ngModel)]="expense.expense_cost">
+        </mat-form-field>
+      </ng-template>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Author</td>
+    <td>
+      <span>{{expense.expense_paid_by}}</span>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Category</td>
+    <td>
+      <span *ngIf="!editMode; else editModeCategory">
+        <p *ngIf="category; else noCategory">{{category.category_title}}</p>
+        <ng-template #noCategory>None</ng-template>
+      </span>
+      <ng-template #editModeCategory>
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select [(value)]="expense.expense_category">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let cat of dataService.categories" value={{cat.category_id}}>
+              {{cat.category_title}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-template>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Date</td>
+    <td>
+      <span>{{expense.expense_date}}</span>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <button *ngIf="!editMode; else saveButton" mat-raised-button color="primary" (click)="onEdit()">Edit</button>
+      <ng-template #saveButton>
+        <button  mat-raised-button color="primary" (click)="onSave()">Save</button>
+      </ng-template>
+    </td>
+    <td>
+      <button *ngIf="!editMode; else cancelButton" mat-raised-button color="primary" (click)="onDelete()">Delete</button>
+      <ng-template #cancelButton>
+        <button mat-raised-button color="primary" (click)="onCancel()">Cancel</button>
+      </ng-template>
+    </td>
+  </tr>
+</table>

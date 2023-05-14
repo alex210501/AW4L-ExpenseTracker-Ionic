@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CreateSpaceModalComponent } from './components/modals/create-space-modal/create-space-modal.component';
 import { LoginComponent } from './components/login/login.component';
 import { SpacesComponent } from './components/spaces/spaces.component';
+import { UserSpaceComponent } from './components/user-space/user-space.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { SpacesComponent } from './components/spaces/spaces.component';
     CreateSpaceModalComponent,
     LoginComponent, 
     SpacesComponent,
+    UserSpaceComponent,
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
