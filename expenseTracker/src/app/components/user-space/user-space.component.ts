@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+import { ModalController } from '@ionic/angular';
 
 import { ApiService } from 'src/app/services/api.service';
 import { Category } from 'src/app/models/category';
-// import { CreateExpenseDialogComponent } from '../dialogs/create-expense-dialog/create-expense-dialog.component';
 import { DataService } from 'src/app/services/data.service';
+import { EditExpenseModalComponent } from '../modals/edit-expense-modal/edit-expense-modal.component';
 import { Space } from 'src/app/models/space';
 import { Expense } from 'src/app/models/expense';
 
@@ -27,10 +27,10 @@ export class UserSpaceComponent {
   constructor(
     private route: ActivatedRoute, 
     private location: Location,
+    private modalController: ModalController,
     private router: Router,
     private apiService: ApiService, 
     public dataService: DataService,
-    // public dialog: MatDialog
     ) {}
 
   ngOnInit() {
@@ -62,16 +62,21 @@ export class UserSpaceComponent {
     }
   }
 
-  openCreateExpenseDialog() {
-    // const dialogRef = this.dialog.open(CreateExpenseDialogComponent, 
-    //   { data: { spaceId: this.spaceId } });
+  async openCreateExpenseDialog() {
+    const modal = await this.modalController.create({
+      component: EditExpenseModalComponent,
+      componentProps: { spaceId: this.spaceId, expenseId: null },
+    });
 
-    // Get expense from dialog
-    // dialogRef.afterClosed().subscribe(expense => {
-    //   if (expense) {
-    //     this.dataService.expenses.push(expense);
-    //   }
-    // });
+    // Open
+    modal.present();
+
+    /// Get new expense
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'valid' && data) {
+      this.dataService.expenses.push(data);
+    }
   }
 
   goBack() {

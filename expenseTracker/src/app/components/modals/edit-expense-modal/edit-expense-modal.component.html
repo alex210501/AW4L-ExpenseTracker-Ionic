@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()" [strong]="true">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Edit expense</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onEdit()" [strong]="true">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="modal-content">
+  <ion-input label="Description" [(ngModel)]="expenseDescription"/>
+  <ion-input type="number" label="Cost" [(ngModel)]="expenseCost"/>
+</ion-content>

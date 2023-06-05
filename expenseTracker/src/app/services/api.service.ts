@@ -16,7 +16,7 @@ const httpOptions = {
     'Content-Type':  'application/json',
   })
 };
-const URL = 'https://alejandro-borbolla.com/expensestracker';
+const URL = 'https://alejandro-borbolla.com/expensestracker/api';
 const LOGIN_URL = `${URL}/auth/login`;
 const LOGOUT_URL = `${URL}/logout`;
 
