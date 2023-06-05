@@ -12,9 +12,14 @@
   <ion-list class="expense-list">
     <ion-item-sliding *ngFor="let expense of dataService.expenses;" class="expense-tile">
       <ion-item (click)="onExpense(expense.expense_id)">
-        <div>
-          <ion-label class="expense-title">{{expense.expense_description}}</ion-label> <br>
-          <ion-label>Paid by <strong>{{expense.expense_paid_by}}</strong></ion-label>
+        <div class="test">
+          <ion-label>
+            <div class="expense-title">{{expense.expense_description}}</div>
+            <div>Paid by <strong>{{expense.expense_paid_by}}</strong></div>
+          </ion-label>
+          <ion-label>
+            <div>{{expense.expense_cost}} €</div>
+          </ion-label>
         </div>
       </ion-item>
 
