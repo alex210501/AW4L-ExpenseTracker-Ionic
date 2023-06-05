@@ -44,8 +44,8 @@ export class SpacesComponent {
     }
   }
 
-  onDelete(event: MouseEvent, spaceId: string) {
-    event.stopPropagation();
+  onDelete(spaceId: string) {
+    // event.stopPropagation();
     this.apiService.deleteSpace(spaceId).subscribe(_ => {
       this.dataService.removeSpaceById(spaceId);
     });

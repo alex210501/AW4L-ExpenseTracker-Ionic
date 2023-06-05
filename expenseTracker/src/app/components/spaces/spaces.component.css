@@ -11,17 +11,15 @@
 }
 
 .space-tile {
-    display: flex;
-    justify-content: space-between;
     border: 2px solid grey;
     border-radius: 1em;
-    padding: 1em;
-    margin-bottom: 0.5em;
-    width: 80%;
+    padding: 0.5em;
+    margin-bottom: 1.0em;
 }
 
 .space-titles {
-    flex: 5;
+  width: 80%;
+  flex-grow: 1;
 }
 
 .space-title {
@@ -36,9 +34,8 @@
 }
 
 .spaces-buttons {
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
+  background-color: aqua;
+  display: flex;
 }
 
 .space-icon-button {

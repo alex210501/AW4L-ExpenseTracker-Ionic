@@ -8,25 +8,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="space-body">
-  <ion-list class="space-list" *ngFor="let space of dataService.spaces;">
-    <ion-item class="space-tile" (click)="onSpace(space.space_id)">
-      <div class="space-titles">
-        <ion-label class="space-title">{{space.space_name}}</ion-label><br>
-        <ion-label class="space-subtitle">{{space.space_description}}</ion-label>
-      </div>
+  <ion-list class="space-list">
+    <ion-item-sliding *ngFor="let space of dataService.spaces;" class="space-tile">
+      <ion-item (click)="onSpace(space.space_id)">
+        <div class="space-titles">
+          <ion-label class="space-title">{{space.space_name}}</ion-label>
+          <ion-label class="space-subtitle">{{space.space_description}}</ion-label>
+        </div>
       
-      <div class="spaces-buttons">
-        <ion-button fill="clear" (click)="onEdit($event, space.space_id)">
+        <ion-button slot="end" fill="clear" (click)="onEdit($event, space.space_id)">
           <ion-icon class="space-icon-button"  name="create"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" class="space-icon-button" (click)="onDelete($event, space.space_id)">
-          <ion-icon class="space-icon-button" name="trash" aria-hidden="true"></ion-icon>
-        </ion-button>
-      </div>
-    </ion-item>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onDelete(space.space_id)">
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   
-  <ion-fab vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="openCreateSpaceModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
