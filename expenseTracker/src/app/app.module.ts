@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CreateSpaceModalComponent } from './components/modals/create-space-modal/create-space-modal.component';
 import { EditExpenseModalComponent } from './components/modals/edit-expense-modal/edit-expense-modal.component';
 import { ExpenseDetailComponent } from './components/expense-details/expense-details.component';
+import { JoinSpaceModalComponent } from './components/modals/join-space-modal/join-space-modal.component';
 import { LoginComponent } from './components/login/login.component';
 import { SpacesComponent } from './components/spaces/spaces.component';
 import { UserSpaceComponent } from './components/user-space/user-space.component';
@@ -21,6 +22,7 @@ import { UserSpaceComponent } from './components/user-space/user-space.component
     CreateSpaceModalComponent,
     EditExpenseModalComponent,
     ExpenseDetailComponent,
+    JoinSpaceModalComponent,
     LoginComponent, 
     SpacesComponent,
     UserSpaceComponent,

@@ -1,0 +1,14 @@
+<ion-header>
+    <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()" [strong]="true">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Join space</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onJoin()" [strong]="true">Join</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-input label="Space ID" [(ngModel)]="spaceId"/>
+</ion-content>

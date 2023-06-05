@@ -76,7 +76,7 @@ export class UserSpaceComponent {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'valid' && data) {
-      this.dataService.expenses.push(data);
+      this.dataService.expenses.unshift(data);
     }
   }
 

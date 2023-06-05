@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { ApiService } from 'src/app/services/api.service';
 import { CreateSpaceModalComponent } from '../modals/create-space-modal/create-space-modal.component';
+import { JoinSpaceModalComponent } from '../modals/join-space-modal/join-space-modal.component';
 import { Space } from 'src/app/models/space';
 import { DataService } from 'src/app/services/data.service';
 
@@ -63,6 +64,21 @@ export class SpacesComponent {
 
     if (role == 'confirm' && data) {
       this.dataService.spaces.push(data);
+    }
+  }
+
+  async openJoinSpaceModal() {
+    const modal = await this.modalController.create({component: JoinSpaceModalComponent});
+
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role == 'confirm' && data) {
+      this.apiService.joinSpace(data).subscribe((_) => {
+        this.apiService.getSpaceById(data)
+          .subscribe((space) => this.dataService.spaces.push(space));
+      });
     }
   }
 }

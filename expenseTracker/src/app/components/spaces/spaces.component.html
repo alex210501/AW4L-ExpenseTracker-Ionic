@@ -30,8 +30,16 @@
   </ion-list>
   
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openCreateSpaceModal()">
+    <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="openCreateSpaceModal()">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="openJoinSpaceModal()">
+        <ion-icon name="open-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 </ion-content>

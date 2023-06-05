@@ -38,6 +38,7 @@ const CATEGORY_ID_URL = `${URL}/space/:space_id/category/:category_id`;
 // Space User
 const SPACE_USER_URL = `${URL}/space/:space_id/user`;
 const SPACE_USER_ID_URL = `${URL}/space/:space_id/user/:username`;
+const SPACE_JOIN_URL = `${URL}/space/:space_id/join`;
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,13 @@ export class ApiService {
 
   getSpaces(): Observable<Space[]> {
     return this.http.get<Space[]>(SPACES_URL, httpOptions);
+  }
+
+  getSpaceById(spaceId: string, errorCallback?: ErrorCallback): Observable<Space> {
+    return this.http.get<Space>(
+      SPACE_ID_URL.replace(':space_id', spaceId),
+      httpOptions
+      ).pipe(catchError(this.handleError<Space>('getSpaceById')));
   }
 
   createSpace(spaceName: string, spaceDescription: string): Observable<Object> {
@@ -193,5 +201,13 @@ export class ApiService {
       SPACE_USER_ID_URL.replace(':space_id', spaceId).replace(':username', username),
       httpOptions,
     ).pipe(catchError(this.handleError<Object>('deleteUserFromSpace')));
+  }
+
+  joinSpace(spaceId: string): Observable<Collaborator> {
+    return this.http.post<Collaborator>(
+      SPACE_JOIN_URL.replace(':space_id', spaceId),
+      null,
+      httpOptions,
+    ).pipe(catchError(this.handleError<Collaborator>('joinSpace')));
   }
 }
