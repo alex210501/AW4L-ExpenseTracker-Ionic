@@ -57,7 +57,6 @@ export class UserSpaceComponent {
     this.expense = this.dataService.findExpenseById(expenseId) as Expense;
     
     if (this.expense) {
-      console.log(this.expense);
       // this.category = this.dataService.findCategoryById(this.expense.expense_category ?? '');
       this.expenseToEdit = new Expense(this.expense);
       this.router.navigate([`space/${this.spaceId}/expense/${this.expense.expense_id}`])
@@ -89,15 +88,13 @@ export class UserSpaceComponent {
     this.editMode = !this.editMode;
   }
 
-  onDelete() {
-    if (this.expense) {
-      this.apiService.deleteExpense(this.spaceId, this.expense.expense_id)
-        .subscribe(_ => {
-          this.router.navigate([`space/${this.spaceId}`]);
-          this.dataService.removeExpenseById(this.expense!.expense_id);
-          this.expense = undefined;
-        });
-    }
+  onDelete(spaceId: string) {
+    this.apiService.deleteExpense(this.spaceId, spaceId)
+      .subscribe(_ => {
+        this.router.navigate([`space/${this.spaceId}`]);
+        this.dataService.removeExpenseById(spaceId);
+        this.expense = undefined;
+      });
   }
 
   onSave() {

@@ -5,7 +5,7 @@ import { Expense } from '../models/expense';
 import { Space } from '../models/space';
 
 
-const debug = true;
+const debug = false;
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +71,8 @@ export class DataService {
     if (debug) {
       return this.expenses[0];
     }
-
+    console.log('here');
+    console.log(expenseId);
     return this.expenses.find(({ expense_id }) => expense_id === expenseId);
   }
 

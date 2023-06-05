@@ -1,8 +1,18 @@
 .expense-body {
     width: 100%;
-    margin-top: 1em;
     margin-left: auto;
     margin-right: auto;
+}
+
+.expense-list {
+  padding: 1em;
+}
+
+.expense-tile {
+  border: 2px solid grey;
+  border-radius: 1em;
+  padding: 0.5em;
+  margin-bottom: 1.0em;
 }
 
 .expense-title {

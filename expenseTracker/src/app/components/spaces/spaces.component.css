@@ -33,11 +33,6 @@
     overflow: hidden;
 }
 
-.spaces-buttons {
-  background-color: aqua;
-  display: flex;
-}
-
 .space-icon-button {
     color: white;
 }

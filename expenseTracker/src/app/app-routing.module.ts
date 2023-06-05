@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'spaces', component: SpacesComponent},
   { path: 'space/:space_id', component: UserSpaceComponent },
-  { path: 'space/:space_id/expense/:expenseId', component: ExpenseDetailComponent },
+  { path: 'space/:space_id/expense/:expense_id', component: ExpenseDetailComponent },
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)

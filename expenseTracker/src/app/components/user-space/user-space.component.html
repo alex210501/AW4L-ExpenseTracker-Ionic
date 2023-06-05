@@ -9,13 +9,21 @@
 </ion-header>
 
 <ion-content class="expense-body">
-  <ion-list *ngFor="let expense of dataService.expenses;" (click)="onExpense(expense.expense_id)">
-    <ion-item>
-      <div>
-        <ion-label class="expense-title">{{expense.expense_description}}</ion-label> <br>
-        <ion-label>Paid by {{expense.expense_paid_by}}</ion-label>
-      </div>
-    </ion-item>
+  <ion-list class="expense-list">
+    <ion-item-sliding *ngFor="let expense of dataService.expenses;" class="expense-tile">
+      <ion-item (click)="onExpense(expense.expense_id)">
+        <div>
+          <ion-label class="expense-title">{{expense.expense_description}}</ion-label> <br>
+          <ion-label>Paid by <strong>{{expense.expense_paid_by}}</strong></ion-label>
+        </div>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onDelete(expense.expense_id)">
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
