@@ -58,6 +58,15 @@ export class DataService {
     return this.spaces;
   }
 
+  editSpace(space: Space) {
+    this.spaces.forEach((element) => {
+      if (element.space_id === space.space_id) {
+        element.space_name = space.space_name;
+        element.space_description = space.space_description;
+      }
+    });
+  }
+
   findExpenseById(expenseId: string): Expense | undefined {
     if (debug) {
       return this.expenses[0];

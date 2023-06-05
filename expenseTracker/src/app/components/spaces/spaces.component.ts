@@ -28,9 +28,20 @@ export class SpacesComponent {
     this.router.navigate([`space/${spaceId}`]);
   }
 
-  onEdit(event: MouseEvent, spaceId: string) {
+  async onEdit(event: MouseEvent, spaceId: string) {
     event.stopPropagation();
-    this.router.navigate([`space/${spaceId}/edit`]);
+    const modal = await this.modalController.create({
+      component: CreateSpaceModalComponent,
+      componentProps: { spaceId },
+    });
+
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role == 'confirm' && data) {
+      this.dataService.editSpace(data);
+    }
   }
 
   onDelete(event: MouseEvent, spaceId: string) {
@@ -43,6 +54,7 @@ export class SpacesComponent {
   async openCreateSpaceModal() {
     const modal = await this.modalController.create({
       component: CreateSpaceModalComponent,
+      componentProps: { spaceId: null },
     });
 
     modal.present();
