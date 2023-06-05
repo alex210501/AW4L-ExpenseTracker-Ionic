@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { ModalController } from '@ionic/angular';
 
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
+import { EditExpenseModalComponent } from '../modals/edit-expense-modal/edit-expense-modal.component';
 import { Expense } from 'src/app/models/expense';
 import { Category } from 'src/app/models/category';
 
@@ -22,6 +24,7 @@ export class ExpenseDetailComponent {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
+    private modalController: ModalController,
     private router: Router,
     private apiService: ApiService,
     public dataService: DataService
@@ -37,8 +40,25 @@ export class ExpenseDetailComponent {
     this._loadCategory();
   }
 
-  onEdit() {
-    this.editMode = !this.editMode;
+  async onEdit() {
+    const modal = await this.modalController.create({
+      component: EditExpenseModalComponent,
+      componentProps: { spaceId: this.spaceId, expenseId: this.expense?.expense_id },
+    });
+
+    // Open
+    modal.present();
+
+    /// Get new expense
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'valid' && data) {
+      this.apiService.patchExpense(this.spaceId, data)
+        .subscribe((_) => {
+          this.dataService.editExpense(data);
+          this.expense = data;
+        });
+    }
   }
 
   onDelete() {
@@ -46,18 +66,6 @@ export class ExpenseDetailComponent {
       this.apiService.deleteExpense(this.spaceId, this.expense.expense_id)
         .subscribe(_ => this.router.navigate([`space/${this.spaceId}`]));
     }
-  }
-
-  onSave() {
-    if (this.expense) {
-      this.editMode = false;
-      this.apiService.patchExpense(this.spaceId, this.expense).subscribe();
-      this._loadCategory();
-    }
-  }
-
-  onCancel() {
-    this.editMode = false;
   }
 
   goBack() {

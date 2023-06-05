@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { ExpenseDetailComponent } from './components/expense-details/expense-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { SpacesComponent } from './components/spaces/spaces.component';
 import { UserSpaceComponent } from './components/user-space/user-space.component';
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'spaces', component: SpacesComponent},
   { path: 'space/:space_id', component: UserSpaceComponent },
+  { path: 'space/:space_id/expense/:expenseId', component: ExpenseDetailComponent },
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)

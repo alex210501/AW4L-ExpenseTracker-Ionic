@@ -55,10 +55,12 @@ export class UserSpaceComponent {
 
   onExpense(expenseId: string) {
     this.expense = this.dataService.findExpenseById(expenseId) as Expense;
-
+    
     if (this.expense) {
-      this.category = this.dataService.findCategoryById(this.expense.expense_category ?? '');
+      console.log(this.expense);
+      // this.category = this.dataService.findCategoryById(this.expense.expense_category ?? '');
       this.expenseToEdit = new Expense(this.expense);
+      this.router.navigate([`space/${this.spaceId}/expense/${this.expense.expense_id}`])
     }
   }
 

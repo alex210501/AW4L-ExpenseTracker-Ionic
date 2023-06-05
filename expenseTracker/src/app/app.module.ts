@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateSpaceModalComponent } from './components/modals/create-space-modal/create-space-modal.component';
 import { EditExpenseModalComponent } from './components/modals/edit-expense-modal/edit-expense-modal.component';
+import { ExpenseDetailComponent } from './components/expense-details/expense-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { SpacesComponent } from './components/spaces/spaces.component';
 import { UserSpaceComponent } from './components/user-space/user-space.component';
@@ -19,6 +20,7 @@ import { UserSpaceComponent } from './components/user-space/user-space.component
     AppComponent, 
     CreateSpaceModalComponent,
     EditExpenseModalComponent,
+    ExpenseDetailComponent,
     LoginComponent, 
     SpacesComponent,
     UserSpaceComponent,

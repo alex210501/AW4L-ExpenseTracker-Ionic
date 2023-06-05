@@ -42,6 +42,14 @@ export class EditExpenseModalComponent  implements OnInit {
     if (this.isNewExpense) {
       this.apiService.createExpense(this.spaceId, this.expenseDescription, this.expenseCost)
         .subscribe(result => this.modalController.dismiss(result as Expense, 'valid'));
+    } else {
+      const expense = this.dataService.findExpenseById(this.expenseId);
+
+      // Update parameters
+      expense!.expense_description = this.expenseDescription;
+      expense!.expense_cost = this.expenseCost;
+
+      this.modalController.dismiss(expense, 'valid')
     }
   }
 

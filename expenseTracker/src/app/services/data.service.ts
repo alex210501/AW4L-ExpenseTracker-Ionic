@@ -71,6 +71,15 @@ export class DataService {
     return this.expenses;
   }
 
+  editExpense(expense: Expense) {
+    this.expenses.forEach((element) => {
+      if (element.expense_id === expense.expense_id) {
+        element.expense_description = expense.expense_description;
+        element.expense_cost = expense.expense_cost;
+      }
+    })
+  }
+
   clearExpenses() {
     if (!debug) {
       this.expenses.splice(0);
