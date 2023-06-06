@@ -1,3 +1,13 @@
 .modal-content {
     --padding-start: 1em;
 }
+
+.category-add {
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-item {
+  width: 50%;
+  margin-bottom: 1em;
+}

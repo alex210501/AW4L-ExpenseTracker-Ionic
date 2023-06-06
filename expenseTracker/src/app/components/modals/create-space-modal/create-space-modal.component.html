@@ -13,4 +13,46 @@
 <ion-content class="modal-content">
   <ion-input label="Name" [(ngModel)]="spaceName"/>
   <ion-input label="Description" [(ngModel)]="spaceDescription"/>
+
+  <div *ngIf="space">
+    <h1>Collaborators</h1>
+  
+    <ion-list *ngFor="let collaborator of space.space_collaborators;">
+      <ion-item class="category-item">
+        <ion-label>{{collaborator}}</ion-label>
+        <ion-buttons side="end">
+          <ion-button color="danger" (click)="onDeleteCollaborator(collaborator)">
+            <ion-icon name="trash"/>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  
+    <div class="category-add">
+      <ion-input [(ngModel)]="newCollaborator" placeHolder="New collaborator"/>
+      <ion-button (click)="onAddCollaborator()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
+
+    <h1>Categories</h1>
+  
+    <ion-list *ngFor="let category of dataService.categories;">
+      <ion-item class="category-item">
+        <ion-label>{{category.category_title}}</ion-label>
+        <ion-buttons side="end">
+          <ion-button color="danger" (click)="onDeleteCategory(category.category_id)">
+            <ion-icon name="trash"/>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  
+    <div class="category-add">
+      <ion-input [(ngModel)]="newCategory" placeHolder="New category"/>
+      <ion-button (click)="onCreateCategory()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

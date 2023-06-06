@@ -99,4 +99,8 @@ export class DataService {
   findCategoryById(categoryId: string): Category | undefined {
     return this.categories.find(( {category_id }) => category_id == categoryId);
   }
+
+  removeCategoryById(categoryId: string) {
+    this.categories = this.categories.filter(category => category.category_id != categoryId);
+  }
 }

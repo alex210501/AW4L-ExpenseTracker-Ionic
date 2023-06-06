@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { Space } from 'src/app/models/space';
 import { DataService } from 'src/app/services/data.service';
+import { Category } from 'src/app/models/category';
 
 
 @Component({
@@ -16,24 +17,28 @@ export class CreateSpaceModalComponent  implements OnInit {
   spaceId = '';
   spaceName = '';
   spaceDescription = '';
+  newCategory = '';
+  newCollaborator = '';
+  space?: Space;
 
   constructor(
+    public dataService: DataService,
     private modalController: ModalController, 
     private apiService: ApiService,
-    private dataService: DataService,
     ) { }
 
   ngOnInit() {
     if (this.spaceId == null) {
       this.isNewSpace = true;
     } else {
-      console.log(this.spaceId);
-      const space = this.dataService.findSpaceById(this.spaceId) ?? null;
-      console.log(space);
+      this.space = this.dataService.findSpaceById(this.spaceId);
 
-      this.spaceName = space?.space_name ?? '';
-      this.spaceDescription = space?.space_description ?? '';
-      console.log(this.spaceName);
+      this.spaceName = this.space!.space_name ?? '';
+      this.spaceDescription = this.space!.space_description ?? '';
+
+      // Load category
+      this.apiService.getCategoriesFromSpace(this.spaceId)
+        .subscribe((categories) => this.dataService.categories = categories);
     }
   }
 
@@ -42,15 +47,37 @@ export class CreateSpaceModalComponent  implements OnInit {
       this.apiService.createSpace(this.spaceName, this.spaceDescription)
         .subscribe(result => this.modalController.dismiss(result as Space, 'confirm'));
     } else {
-      const space = this.dataService.findSpaceById(this.spaceId);
+      this.space = this.dataService.findSpaceById(this.spaceId);
+      console.log(this.space);
 
       // Set parameters
-      space!.space_name = this.spaceName;
-      space!.space_description = this.spaceDescription;
+      this.space!.space_name = this.spaceName;
+      this.space!.space_description = this.spaceDescription;
 
-      this.apiService.patchSpace(space!)
-        .subscribe((a) => this.modalController.dismiss(space, 'confirm'));
+      this.apiService.patchSpace(this.space!)
+        .subscribe((a) => this.modalController.dismiss(this.space, 'confirm'));
     }
+  }
+
+  onDeleteCategory(categoryId: string) {
+    this.apiService.deleteCategoryFromSpace(this.spaceId, categoryId)
+      .subscribe((_) => this.dataService.removeCategoryById(categoryId));
+  }
+
+  onCreateCategory() {
+    this.apiService.createCategoryToSpace(this.spaceId, this.newCategory)
+      .subscribe((category: Category) => this.dataService.categories.push(category));
+  }
+
+  onAddCollaborator() {
+    this.apiService.addUserToSpace(this.spaceId, this.newCollaborator)
+      .subscribe((_) => this.space?.space_collaborators.push(this.newCollaborator));
+  }
+
+  onDeleteCollaborator(username: string) {
+    this.apiService.deleteUserFromSpace(this.spaceId, username)
+      .subscribe((_) => this.space!.space_collaborators = this.space!.space_collaborators
+        .filter((collab) => collab != username));
   }
 
   onCancel() {
