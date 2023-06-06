@@ -3,8 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+
 import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { ExpenseDetailComponent } from './components/expense-details/expense-det
 import { JoinSpaceModalComponent } from './components/modals/join-space-modal/join-space-modal.component';
 import { LoginComponent } from './components/login/login.component';
 import { ShowQrcodeModalComponent } from './components/modals/show-qrcode-modal/show-qrcode-modal.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { SpacesComponent } from './components/spaces/spaces.component';
 import { UserSpaceComponent } from './components/user-space/user-space.component';
 
@@ -27,6 +29,7 @@ import { UserSpaceComponent } from './components/user-space/user-space.component
     JoinSpaceModalComponent,
     LoginComponent, 
     ShowQrcodeModalComponent,
+    SignupComponent,
     SpacesComponent,
     UserSpaceComponent,
   ],
@@ -37,6 +40,7 @@ import { UserSpaceComponent } from './components/user-space/user-space.component
     FormsModule, 
     HttpClientModule, 
     QRCodeModule,
+    ReactiveFormsModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
