@@ -1,0 +1,13 @@
+<ion-header>
+    <ion-toolbar>
+    <ion-title>Scan me</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="ion-flex ion-justify-content-center">
+    <div class="ion-text-center ion-padding">
+      <qrcode [qrdata]="qrCode" [width]="250"></qrcode>
+      <ion-button (click)="onClose()" color="primary">Close</ion-button>
+    </div>
+  </div>
+</ion-content>

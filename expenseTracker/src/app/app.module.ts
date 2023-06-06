@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +14,7 @@ import { EditExpenseModalComponent } from './components/modals/edit-expense-moda
 import { ExpenseDetailComponent } from './components/expense-details/expense-details.component';
 import { JoinSpaceModalComponent } from './components/modals/join-space-modal/join-space-modal.component';
 import { LoginComponent } from './components/login/login.component';
+import { ShowQrcodeModalComponent } from './components/modals/show-qrcode-modal/show-qrcode-modal.component';
 import { SpacesComponent } from './components/spaces/spaces.component';
 import { UserSpaceComponent } from './components/user-space/user-space.component';
 
@@ -24,10 +26,18 @@ import { UserSpaceComponent } from './components/user-space/user-space.component
     ExpenseDetailComponent,
     JoinSpaceModalComponent,
     LoginComponent, 
+    ShowQrcodeModalComponent,
     SpacesComponent,
     UserSpaceComponent,
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule, 
+    FormsModule, 
+    HttpClientModule, 
+    QRCodeModule,
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

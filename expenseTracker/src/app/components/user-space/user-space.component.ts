@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Category } from 'src/app/models/category';
 import { DataService } from 'src/app/services/data.service';
 import { EditExpenseModalComponent } from '../modals/edit-expense-modal/edit-expense-modal.component';
+import { ShowQrcodeModalComponent } from '../modals/show-qrcode-modal/show-qrcode-modal.component';
 import { Space } from 'src/app/models/space';
 import { Expense } from 'src/app/models/expense';
 
@@ -95,6 +96,16 @@ export class UserSpaceComponent {
         this.dataService.removeExpenseById(spaceId);
         this.expense = undefined;
       });
+  }
+
+  async showQrCode() {
+    const modal = await this.modalController.create({
+      component: ShowQrcodeModalComponent,
+      componentProps: { qrCode: this.spaceId },
+    });
+
+    // Open
+    modal.present();
   }
 
   onSave() {
