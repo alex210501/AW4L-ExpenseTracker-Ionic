@@ -48,8 +48,11 @@ export class SignupComponent  implements OnInit {
     }, { validators: this._checkRetypePassword});
   }
 
+  onSignIn() {
+    this.router.navigate(['login']);
+  }
+
   onSignUp() {
-    console.log("yop");
     if (this.validationForm.valid) {
       this.user.user_username = this.validationForm.get('username')!.value;
       this.user.user_firstname = this.validationForm.get('firstname')!.value;
