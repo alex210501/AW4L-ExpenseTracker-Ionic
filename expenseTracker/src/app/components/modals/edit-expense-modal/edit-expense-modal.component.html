@@ -12,4 +12,7 @@
 <ion-content class="modal-content">
   <ion-input label="Description" [(ngModel)]="expenseDescription"/>
   <ion-input type="number" label="Cost" [(ngModel)]="expenseCost"/>
+  <ion-select label="Category" [(ngModel)]="category">
+    <ion-select-option *ngFor="let element of categoriesSelect" [value]="element">{{element?.category_title ?? 'None'}}</ion-select-option>
+  </ion-select>
 </ion-content>

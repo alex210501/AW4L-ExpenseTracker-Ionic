@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
 import { Expense } from 'src/app/models/expense';
+import { Category } from 'src/app/models/category';
+import { executionAsyncId } from 'async_hooks';
 
 
 @Component({
@@ -17,6 +19,8 @@ export class EditExpenseModalComponent  implements OnInit {
   expenseId = '';
   expenseDescription = '';
   expenseCost = 0.0;
+  category: Category | null = null;
+  categoriesSelect: (Category |null)[] = [];
 
   constructor(
     private modalController: ModalController, 
@@ -33,6 +37,8 @@ export class EditExpenseModalComponent  implements OnInit {
       // Load arguments
       this.expenseDescription = expense?.expense_description ?? '';
       this.expenseCost = expense?.expense_cost ?? 0.0;
+      this.categoriesSelect = [null, ...this.dataService.categories];
+      this.category = this.dataService.findCategoryById(expense?.expense_category ?? '');
     } else {
       this.isNewExpense = true;
     }
@@ -48,6 +54,7 @@ export class EditExpenseModalComponent  implements OnInit {
       // Update parameters
       expense!.expense_description = this.expenseDescription;
       expense!.expense_cost = this.expenseCost;
+      expense!.expense_category = this.category?.category_id ?? null;
 
       this.modalController.dismiss(expense, 'valid')
     }

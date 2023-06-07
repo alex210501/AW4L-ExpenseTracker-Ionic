@@ -15,5 +15,5 @@
   <ion-label>Cost: {{expense.expense_cost}} €</ion-label> <br>
   <ion-label>Author: {{expense.expense_paid_by}}</ion-label> <br>
   <ion-label>Date: {{expense.expense_date | date:"dd/MM/yy, HH:mm"}}</ion-label> <br>
-  <!-- <ion-label>Date: {{expense.expense_date | date:"M/d/yy, HH:mm"}}</ion-label> -->
+  <ion-label>Category: {{category !== null ? category.category_title : 'None'}}</ion-label> <br>
 </ion-content>

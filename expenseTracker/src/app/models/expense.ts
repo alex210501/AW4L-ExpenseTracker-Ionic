@@ -7,7 +7,7 @@ export class Expense {
   expense_date = '';
   expense_space = '';
   expense_paid_by = '';
-  expense_category = '';
+  expense_category: string | null = null;
 
   constructor(expense: Expense) {
     return {

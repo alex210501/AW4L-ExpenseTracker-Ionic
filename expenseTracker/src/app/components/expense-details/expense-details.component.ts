@@ -18,7 +18,8 @@ import { Category } from 'src/app/models/category';
 export class ExpenseDetailComponent {
   spaceId = '';
   expense?: Expense;
-  category?: Category;
+  category: Category | null = null;
+  categoriesSelect: (Category | null)[] = [];
   editMode = false;
 
   constructor(
@@ -37,7 +38,8 @@ export class ExpenseDetailComponent {
 
     // Get expense and category
     this.expense = this.dataService.findExpenseById(expenseId);
-    this._loadCategory();
+    this.categoriesSelect = [null, ...this.dataService.categories];
+    this.category = this.dataService.findCategoryById(this.expense?.expense_category ?? '');
   }
 
   async onEdit() {
@@ -73,8 +75,12 @@ export class ExpenseDetailComponent {
   }
 
   _loadCategory() {
-    if (this.expense && this.expense.expense_category) {
-      this.category = this.dataService.findCategoryById(this.expense.expense_category);
-    }
+    // if (this.expense && this.expense.expense_category) {
+    //   this.category = this.dataService.findCategoryById(this.expense.expense_category);
+    // }
   }
+
+  // onCategoryChange(ev) {
+  //   console.log(ev.target.value);
+  // }
 }

@@ -138,8 +138,8 @@ export class UserSpaceComponent {
   }
 
   _loadCategory() {
-    if (this.expense && this.expense.expense_category) {
-      this.category = this.dataService.findCategoryById(this.expense.expense_category);
-    }
+    // if (this.expense && this.expense.expense_category) {
+    //   this.category = this.dataService.findCategoryById(this.expense.expense_category);
+    // }
   }
 }
