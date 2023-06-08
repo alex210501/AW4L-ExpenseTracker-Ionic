@@ -29,6 +29,13 @@ export class SpacesComponent {
     this.router.navigate([`space/${spaceId}`]);
   }
 
+  onRefresh(event: any) {
+    this.apiService.getSpaces().subscribe(spaces => {
+      this.dataService.spaces = spaces;
+      event.target.complete();
+    });
+  }
+
   async onEdit(event: MouseEvent, spaceId: string) {
     event.stopPropagation();
     const modal = await this.modalController.create({

@@ -3,7 +3,7 @@
     <ion-button slot="start" fill="clear" (click)="goBack()">
       <ion-icon name="arrow-back" />
     </ion-button>
-    <ion-title *ngIf="space">{{space.space_name}}</ion-title>
+    <ion-title *ngIf="space">{{ space.space_name }}</ion-title>
     <ng-template #elseBlock>No name</ng-template>
     <ion-button slot="end" fill="clear" (click)="showQrCode()">
       <ion-icon name="qr-code-outline" />
@@ -12,16 +12,27 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content />
+  </ion-refresher>
+  
   <ion-list class="expense-list">
-    <ion-item-sliding *ngFor="let expense of dataService.expenses;" class="expense-tile">
+    <ion-item-sliding
+      *ngFor="let expense of dataService.expenses"
+      class="expense-tile"
+    >
       <ion-item (click)="onExpense(expense.expense_id)">
         <div class="test">
           <ion-label>
-            <div class="expense-title">{{expense.expense_description}}</div>
-            <div>Paid by <strong>{{expense.expense_paid_by}}</strong></div>
+            <div class="expense-title">
+              {{ expense.expense_description }}
+            </div>
+            <div>
+              Paid by <strong>{{ expense.expense_paid_by }}</strong>
+            </div>
           </ion-label>
           <ion-label>
-            <div>{{expense.expense_cost}} €</div>
+            <div>{{ expense.expense_cost }} €</div>
           </ion-label>
         </div>
       </ion-item>
@@ -33,7 +44,7 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="openCreateExpenseDialog()">
       <ion-icon name="add"></ion-icon>

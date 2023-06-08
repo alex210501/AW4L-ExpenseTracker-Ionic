@@ -8,6 +8,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="space-body">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content />
+  </ion-refresher>
+  
   <ion-list class="space-list">
     <ion-item-sliding *ngFor="let space of dataService.spaces;" class="space-item">
       <ion-item (click)="onSpace(space.space_id)">

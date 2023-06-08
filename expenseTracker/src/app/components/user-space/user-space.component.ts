@@ -34,6 +34,14 @@ export class UserSpaceComponent {
     public dataService: DataService,
     ) {}
 
+  onRefresh(event: any) {
+    this.apiService.getExpensesFromSpaceId(this.spaceId)
+      .subscribe(expenses => {
+        this.dataService.expenses = expenses;
+        event.target.complete();
+      });
+  }
+
   ngOnInit() {
     // Get space ID from path
     this.spaceId = this.route.snapshot.paramMap.get('space_id') ?? '';
