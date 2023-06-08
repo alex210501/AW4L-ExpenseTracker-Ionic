@@ -66,12 +66,18 @@ export class CreateSpaceModalComponent  implements OnInit {
 
   onCreateCategory() {
     this.apiService.createCategoryToSpace(this.spaceId, this.newCategory)
-      .subscribe((category: Category) => this.dataService.categories.push(category));
+      .subscribe((category: Category) => {
+        this.dataService.categories.push(category)
+        this.newCategory = '';
+      });
   }
 
   onAddCollaborator() {
     this.apiService.addUserToSpace(this.spaceId, this.newCollaborator)
-      .subscribe((_) => this.space?.space_collaborators.push(this.newCollaborator));
+      .subscribe((_) => {
+        this.space?.space_collaborators.push(this.newCollaborator);
+        this.newCollaborator = '';
+      });
   }
 
   onDeleteCollaborator(username: string) {

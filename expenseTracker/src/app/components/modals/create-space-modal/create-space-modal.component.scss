@@ -1,13 +1,20 @@
 .modal-content {
-    --padding-start: 1em;
+  --padding-start: 1em;
+  --padding-end: 1em;
 }
 
-.category-add {
+.list-add {
   display: flex;
   justify-content: space-between;
 }
 
-.category-item {
-  width: 50%;
+.list {
+  background-color: transparent;
+}
+
+.list-item {
+  --ion-item-background: transparent;
   margin-bottom: 1em;
+  border: 2px solid grey;
+  border-radius: 1em;
 }
