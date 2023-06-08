@@ -1,4 +1,8 @@
-.modal-content {
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+}
+
+ion-content {
   --padding-start: 1em;
   --padding-end: 1em;
 }
@@ -9,12 +13,15 @@
 }
 
 .list {
-  background-color: transparent;
+  background-color: var(--ion-list-background);
 }
 
 .list-item {
-  --ion-item-background: transparent;
   margin-bottom: 1em;
   border: 2px solid grey;
   border-radius: 1em;
+  --padding-start: 0.5em;
+  --padding-end: 0.5em;
+  --padding-top: 0.5em;
+  --padding-bottom: 0.5em;
 }

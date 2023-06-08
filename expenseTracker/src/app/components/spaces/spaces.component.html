@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true" class="space-body">
   <ion-list class="space-list">
-    <ion-item-sliding *ngFor="let space of dataService.spaces;" class="space-tile">
+    <ion-item-sliding *ngFor="let space of dataService.spaces;" class="space-item">
       <ion-item (click)="onSpace(space.space_id)">
         <div class="space-titles">
           <ion-label class="space-title">{{space.space_name}}</ion-label>
@@ -34,10 +34,10 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button (click)="openCreateSpaceModal()">
+      <ion-fab-button color="primary" (click)="openCreateSpaceModal()">
         <ion-icon name="create"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button (click)="openJoinSpaceModal()">
+      <ion-fab-button color="primary" (click)="openJoinSpaceModal()">
         <ion-icon name="open-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>

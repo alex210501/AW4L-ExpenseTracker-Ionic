@@ -3,3 +3,7 @@ ion-content {
   --padding-end: 1em;
   --padding-top: 1em;
 }
+
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+}

@@ -153,7 +153,7 @@
    */
 
   .ios body {
-    --ion-background-color: #000000;
+    --ion-background-color: var(--ion-color-step-100);
     --ion-background-color-rgb: 0,0,0;
 
     --ion-text-color: #ffffff;
@@ -179,7 +179,10 @@
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-item-background: #000000;
+    --ion-toolbar-background: var(--ion-color-step-50);
+
+    --ion-list-background: transparent;
+    --ion-item-background: var(--ion-color-step-150);
 
     --ion-card-background: #1c1c1d;
   }

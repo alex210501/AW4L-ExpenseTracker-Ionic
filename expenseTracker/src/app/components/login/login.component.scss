@@ -3,6 +3,10 @@ ion-content {
   --padding-end: 1em;
 }
 
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+}
+
 table {
   border-collapse: separate;
   border-spacing: 0 15px;
@@ -36,7 +40,6 @@ table {
 .login-button {
   display: flex;
   justify-content: space-between;
-  width: 80%;
   margin-top: 1em;
   margin-left: auto;
   margin-right: auto;

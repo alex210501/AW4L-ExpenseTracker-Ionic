@@ -1,18 +1,25 @@
-.expense-body {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+ion-content {
+  --padding-start: 1em;
+  --padding-end: 1em;
+  --padding-top: 1em;
 }
 
 .expense-list {
-  padding: 1em;
+  background-color: var(--ion-list-background);
 }
+
 
 .expense-tile {
   border: 2px solid grey;
   border-radius: 1em;
-  padding: 0.5em;
   margin-bottom: 1.0em;
+}
+
+.expense-tile > ion-item {
+  --padding-start: 0.5em;
+  --padding-end: 0.5em;
+  --padding-top: 0.5em;
+  --padding-bottom: 0.5em;
 }
 
 .expense-title {
