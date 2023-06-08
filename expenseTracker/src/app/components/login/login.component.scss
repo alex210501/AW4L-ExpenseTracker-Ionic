@@ -1,10 +1,14 @@
+ion-content {
+  --padding-start: 1em;
+  --padding-end: 1em;
+}
+
 table {
   border-collapse: separate;
   border-spacing: 0 15px;
 }
 
 .login-form {
-  background-color: white;
   text-align: center;
   min-width: 150px;
   max-width: 500px;

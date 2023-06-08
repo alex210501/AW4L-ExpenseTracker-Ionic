@@ -11,7 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 @Component({
   selector: 'app-spaces',
   templateUrl: './spaces.component.html',
-  styleUrls: ['./spaces.component.css']
+  styleUrls: ['./spaces.component.scss']
 })
 export class SpacesComponent {
   constructor(

@@ -7,7 +7,7 @@ import { Credentials } from 'src/app/models/credentials';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   credentials = new Credentials;

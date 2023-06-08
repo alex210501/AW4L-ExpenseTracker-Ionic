@@ -14,7 +14,7 @@ import { Expense } from 'src/app/models/expense';
 @Component({
   selector: 'app-user-space',
   templateUrl: './user-space.component.html',
-  styleUrls: ['./user-space.component.css']
+  styleUrls: ['./user-space.component.scss']
 })
 export class UserSpaceComponent {
   spaceId = '';
