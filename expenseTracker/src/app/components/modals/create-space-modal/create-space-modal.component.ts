@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+import { Clipboard } from '@capacitor/clipboard';
+
 import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { Space } from 'src/app/models/space';
 import { DataService } from 'src/app/services/data.service';
 import { Category } from 'src/app/models/category';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 
 @Component({
@@ -27,10 +30,16 @@ export class CreateSpaceModalComponent  implements OnInit {
     private alertService: AlertService,
     private modalController: ModalController, 
     private apiService: ApiService,
+    private snackbarService: SnackbarService,
     ) { }
 
   get isAdmin() { 
     return this.space?.space_admin === this.dataService.username;
+  }
+
+  async onCopyId() {
+    await Clipboard.write({ string: this.space?.space_id })
+      .then(_ => this.snackbarService.presentToast('ID saved to clipboard!'));
   }
 
   ngOnInit() {

@@ -11,41 +11,65 @@
 </ion-header>
 
 <ion-content>
-  <ion-input label="Name" [(ngModel)]="spaceName"/>
-  <ion-input label="Description" [(ngModel)]="spaceDescription"/>
+  <span *ngIf="space" class="id-line">
+    <ion-label class="id-text">ID: {{ space.space_id }}</ion-label>
+    <ion-button class="id-button" fill="clear" (click)="onCopyId()">
+      <ion-icon name="copy-outline"></ion-icon>
+    </ion-button>
+  </span>
+  <ion-input label="Name" [(ngModel)]="spaceName" />
+  <ion-input label="Description" [(ngModel)]="spaceDescription" />
 
   <div *ngIf="space">
     <h1>Collaborators</h1>
 
     <ion-list class="list">
-      <ion-item class="list-item" *ngFor="let collaborator of space.space_collaborators;">
-        <ion-label>{{collaborator}}</ion-label>
-        <ion-button *ngIf="isAdmin" slot="end" fill="clear" color="danger" (click)="onDeleteCollaborator(collaborator)">
-          <ion-icon name="trash"/>
+      <ion-item
+        class="list-item"
+        *ngFor="let collaborator of space.space_collaborators"
+      >
+        <ion-label>{{ collaborator }}</ion-label>
+        <ion-button
+          *ngIf="isAdmin"
+          slot="end"
+          fill="clear"
+          color="danger"
+          (click)="onDeleteCollaborator(collaborator)"
+        >
+          <ion-icon name="trash" />
         </ion-button>
       </ion-item>
     </ion-list>
-  
+
     <div *ngIf="isAdmin" class="list-add">
-      <ion-input [(ngModel)]="newCollaborator" placeHolder="New collaborator"/>
+      <ion-input [(ngModel)]="newCollaborator" placeHolder="New collaborator" />
       <ion-button (click)="onAddCollaborator()">
         <ion-icon name="add"></ion-icon>
       </ion-button>
     </div>
 
     <h1>Categories</h1>
-  
+
     <ion-list class="list">
-      <ion-item class="list-item" *ngFor="let category of dataService.categories;">
-        <ion-label>{{category.category_title}}</ion-label>
-        <ion-button *ngIf="isAdmin" slot="end" fill="clear" color="danger" (click)="onDeleteCategory(category.category_id)">
-          <ion-icon name="trash"/>
+      <ion-item
+        class="list-item"
+        *ngFor="let category of dataService.categories"
+      >
+        <ion-label>{{ category.category_title }}</ion-label>
+        <ion-button
+          *ngIf="isAdmin"
+          slot="end"
+          fill="clear"
+          color="danger"
+          (click)="onDeleteCategory(category.category_id)"
+        >
+          <ion-icon name="trash" />
         </ion-button>
       </ion-item>
     </ion-list>
-  
+
     <div *ngIf="isAdmin" class="list-add">
-      <ion-input [(ngModel)]="newCategory" placeHolder="New category"/>
+      <ion-input [(ngModel)]="newCategory" placeHolder="New category" />
       <ion-button (click)="onCreateCategory()">
         <ion-icon name="add"></ion-icon>
       </ion-button>
