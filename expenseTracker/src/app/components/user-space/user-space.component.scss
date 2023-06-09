@@ -26,9 +26,30 @@ ion-content {
     font-size: 1.2em;
 }
 
-.test {
+.ion-item-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+
+.bottom-toolbar {
+  --padding-top: 0.5em;
+  --padding-start: 0.5em;
+  --padding-end: 0.5em;
+  --padding-bottom: 0.5em;
+}
+
+.bottom-toolbar-text {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  white-space: nowrap;
+  text-align: left;
+  font-size: 12px;
+}
+
+.bottom-toolbar-title {
+  font-weight: bold;
+  margin-bottom: 0.5em;
 }

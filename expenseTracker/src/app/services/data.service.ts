@@ -11,6 +11,7 @@ const debug = false;
   providedIn: 'root'
 })
 export class DataService {
+  username: string = '';
   spaces: Space[] = [];
   expenses: Expense[] = [];
   categories: Category[] = [];

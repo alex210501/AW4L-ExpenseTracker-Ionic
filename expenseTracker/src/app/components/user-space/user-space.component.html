@@ -15,21 +15,24 @@
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content />
   </ion-refresher>
-  
+
   <ion-list class="expense-list">
     <ion-item-sliding
       *ngFor="let expense of dataService.expenses"
       class="expense-tile"
     >
       <ion-item (click)="onExpense(expense.expense_id)">
-        <div class="test">
+        <div class="ion-item-content">
           <ion-label>
-            <div class="expense-title">
-              {{ expense.expense_description }}
-            </div>
-            <div>
-              Paid by <strong>{{ expense.expense_paid_by }}</strong>
-            </div>
+            <div class="expense-title">{{ expense.expense_description }}</div>
+            <div
+              >Paid by
+              <strong>{{
+                this.dataService.username === expense.expense_paid_by
+                  ? "You"
+                  : expense.expense_paid_by
+              }}</strong></div
+            >
           </ion-label>
           <ion-label>
             <div>{{ expense.expense_cost }} €</div>
@@ -51,3 +54,24 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="bottom-toolbar">
+    <ion-buttons slot="start">
+      <ion-label>
+        <div class="bottom-toolbar-text">
+          <span class="bottom-toolbar-title">Your expenses</span>
+          <span>{{ getTotalExpensesUser() }} €</span>
+        </div>
+      </ion-label>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-label>
+        <div class="bottom-toolbar-text">
+          <span class="bottom-toolbar-title">Total expenses</span>
+          <span>{{ getTotalExpenses() }} €</span>
+        </div>
+      </ion-label>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -36,6 +36,18 @@ export class UserSpaceComponent {
     public dataService: DataService,
     ) {}
 
+  getTotalExpenses(username: string | null = null): number {
+    return this.dataService.expenses.reduce((acc, expense) => {
+      if (username == null || username == expense.expense_paid_by) {
+        return acc + expense.expense_cost;
+      }
+
+      return acc;
+    }, 0);
+  }
+
+  getTotalExpensesUser = () => this.getTotalExpenses(this.dataService.username);
+
   onRefresh(event: any) {
     this.apiService.getExpensesFromSpaceId(this.spaceId, 
       (err) => this.alertService.apiErrorAlert(err))
