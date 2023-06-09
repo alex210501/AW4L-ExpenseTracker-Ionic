@@ -105,6 +105,14 @@ export class CreateSpaceModalComponent  implements OnInit {
         .filter((collab) => collab != username));
   }
 
+  onQuitSpace() {
+    this.apiService.quitSpace(this.spaceId, err => this.alertService.apiErrorAlert(err))
+      .subscribe(_ => {
+        this.dataService.removeSpaceById(this.spaceId);
+        return this.modalController.dismiss(null, 'remove');
+      });
+  }
+
   onCancel() {
     return this.modalController.dismiss(null, 'cancel');
   }

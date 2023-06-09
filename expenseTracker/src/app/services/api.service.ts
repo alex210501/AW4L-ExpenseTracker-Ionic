@@ -39,6 +39,7 @@ const CATEGORY_ID_URL = `${URL}/space/:space_id/category/:category_id`;
 const SPACE_USER_URL = `${URL}/space/:space_id/user`;
 const SPACE_USER_ID_URL = `${URL}/space/:space_id/user/:username`;
 const SPACE_JOIN_URL = `${URL}/space/:space_id/join`;
+const SPACE_QUIT_URL = `${URL}/space/:space_id/quit`;
 
 // Define the ErrorCallback type
 type ErrorCallback = (error: any) => void;
@@ -214,6 +215,14 @@ export class ApiService {
   joinSpace(spaceId: string, errorCallback?: ErrorCallback): Observable<Collaborator> {
     return this.http.post<Collaborator>(
       SPACE_JOIN_URL.replace(':space_id', spaceId),
+      null,
+      httpOptions,
+    ).pipe(catchError((err) => this.handleError(err, errorCallback)));
+  }
+
+  quitSpace(spaceId: string, errorCallback?: ErrorCallback): Observable<Collaborator> {
+    return this.http.post<Collaborator>(
+      SPACE_QUIT_URL.replace(':space_id', spaceId),
       null,
       httpOptions,
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
