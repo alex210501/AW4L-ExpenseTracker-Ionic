@@ -65,7 +65,6 @@ export class CreateSpaceModalComponent  implements OnInit {
         .subscribe(result => this.modalController.dismiss(result as Space, 'confirm'));
     } else {
       this.space = this.dataService.findSpaceById(this.spaceId);
-      console.log(this.space);
 
       // Set parameters
       this.space!.space_name = this.spaceName;

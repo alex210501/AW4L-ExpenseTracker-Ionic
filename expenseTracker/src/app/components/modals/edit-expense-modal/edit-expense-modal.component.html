@@ -10,8 +10,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="modal-content">
-  <ion-input label="Description" [(ngModel)]="expenseDescription" />
-  <ion-input type="number" label="Cost" [(ngModel)]="expenseCost" />
+  <form [formGroup]="validationForm">
+    <ion-input label="Description" formControlName="description" [(ngModel)]="expenseDescription" />
+    <ion-input type="number" formControlName="cost" label="Cost" [(ngModel)]="expenseCost" />
+  </form>
   <ion-select label="Category" [(ngModel)]="category">
     <ion-select-option
       *ngFor="let element of categoriesSelect"
