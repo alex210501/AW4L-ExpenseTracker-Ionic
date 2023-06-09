@@ -109,9 +109,11 @@ export class ApiService {
 
   patchSpace(space: Space, errorCallback?: ErrorCallback): Observable<Space> {
     const spaceJson = {
-      space_name: space,
+      space_name: space.space_name,
       space_description: space.space_description,
     };
+
+    console.log(spaceJson);
 
     return this.http.patch<Space>(
       SPACE_ID_URL.replace(':space_id', space.space_id),

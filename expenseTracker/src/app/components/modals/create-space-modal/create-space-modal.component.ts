@@ -71,7 +71,7 @@ export class CreateSpaceModalComponent  implements OnInit {
       this.space!.space_description = this.spaceDescription;
 
       this.apiService.patchSpace(this.space!, (err) => this.alertService.apiErrorAlert(err))
-        .subscribe((a) => this.modalController.dismiss(this.space, 'confirm'));
+        .subscribe(_ => this.modalController.dismiss(this.space, 'confirm'));
     }
   }
 
