@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { Space } from 'src/app/models/space';
 import { DataService } from 'src/app/services/data.service';
@@ -23,6 +24,7 @@ export class CreateSpaceModalComponent  implements OnInit {
 
   constructor(
     public dataService: DataService,
+    private alertService: AlertService,
     private modalController: ModalController, 
     private apiService: ApiService,
     ) { }
@@ -37,14 +39,16 @@ export class CreateSpaceModalComponent  implements OnInit {
       this.spaceDescription = this.space!.space_description ?? '';
 
       // Load category
-      this.apiService.getCategoriesFromSpace(this.spaceId)
+      this.apiService.getCategoriesFromSpace(this.spaceId,
+        (err) => this.alertService.apiErrorAlert(err))
         .subscribe((categories) => this.dataService.categories = categories);
     }
   }
 
   onCreate() {
     if (this.isNewSpace) {
-      this.apiService.createSpace(this.spaceName, this.spaceDescription)
+      this.apiService.createSpace(this.spaceName, this.spaceDescription,
+        (err) => this.alertService.apiErrorAlert(err))
         .subscribe(result => this.modalController.dismiss(result as Space, 'confirm'));
     } else {
       this.space = this.dataService.findSpaceById(this.spaceId);
@@ -54,13 +58,14 @@ export class CreateSpaceModalComponent  implements OnInit {
       this.space!.space_name = this.spaceName;
       this.space!.space_description = this.spaceDescription;
 
-      this.apiService.patchSpace(this.space!)
+      this.apiService.patchSpace(this.space!, (err) => this.alertService.apiErrorAlert(err))
         .subscribe((a) => this.modalController.dismiss(this.space, 'confirm'));
     }
   }
 
   onDeleteCategory(categoryId: string) {
-    this.apiService.deleteCategoryFromSpace(this.spaceId, categoryId)
+    this.apiService.deleteCategoryFromSpace(this.spaceId, categoryId, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe((_) => this.dataService.removeCategoryById(categoryId));
   }
 
@@ -73,7 +78,8 @@ export class CreateSpaceModalComponent  implements OnInit {
   }
 
   onAddCollaborator() {
-    this.apiService.addUserToSpace(this.spaceId, this.newCollaborator)
+    this.apiService.addUserToSpace(this.spaceId, this.newCollaborator, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe((_) => {
         this.space?.space_collaborators.push(this.newCollaborator);
         this.newCollaborator = '';
@@ -81,7 +87,8 @@ export class CreateSpaceModalComponent  implements OnInit {
   }
 
   onDeleteCollaborator(username: string) {
-    this.apiService.deleteUserFromSpace(this.spaceId, username)
+    this.apiService.deleteUserFromSpace(this.spaceId, username, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe((_) => this.space!.space_collaborators = this.space!.space_collaborators
         .filter((collab) => collab != username));
   }

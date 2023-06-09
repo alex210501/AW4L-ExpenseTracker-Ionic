@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { User } from 'src/app/models/user';
 
@@ -20,7 +21,11 @@ export class SignupComponent  implements OnInit {
     user_password: '',
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService) { }
+  constructor(
+    private alertService: AlertService,
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private apiService: ApiService) { }
 
   _checkRetypePassword(control: FormControl) {
     let password: string = control.get('password')?.value;
@@ -60,7 +65,7 @@ export class SignupComponent  implements OnInit {
       this.user.user_email = this.validationForm.get('email')!.value;
       this.user.user_password = this.validationForm.get('password')!.value;
 
-      this.apiService.createUser(this.user);
+      this.apiService.createUser(this.user, (err) => this.alertService.apiErrorAlert(err));
       this.router.navigate(['login']);
     }
   }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
 import { EditExpenseModalComponent } from '../modals/edit-expense-modal/edit-expense-modal.component';
@@ -23,6 +24,7 @@ export class ExpenseDetailComponent {
   editMode = false;
 
   constructor(
+    private alertService: AlertService,
     private route: ActivatedRoute,
     private location: Location,
     private modalController: ModalController,
@@ -55,7 +57,8 @@ export class ExpenseDetailComponent {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'valid' && data) {
-      this.apiService.patchExpense(this.spaceId, data)
+      this.apiService.patchExpense(this.spaceId, data, 
+        (err) => this.alertService.apiErrorAlert(err))
         .subscribe((_) => {
           this.dataService.editExpense(data);
           this.expense = data;
@@ -65,7 +68,8 @@ export class ExpenseDetailComponent {
 
   onDelete() {
     if (this.expense) {
-      this.apiService.deleteExpense(this.spaceId, this.expense.expense_id)
+      this.apiService.deleteExpense(this.spaceId, this.expense.expense_id,
+        (err) => this.alertService.apiErrorAlert(err))
         .subscribe(_ => this.router.navigate([`space/${this.spaceId}`]));
     }
   }
@@ -73,14 +77,4 @@ export class ExpenseDetailComponent {
   goBack() {
     this.location.back();
   }
-
-  _loadCategory() {
-    // if (this.expense && this.expense.expense_category) {
-    //   this.category = this.dataService.findCategoryById(this.expense.expense_category);
-    // }
-  }
-
-  // onCategoryChange(ev) {
-  //   console.log(ev.target.value);
-  // }
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { Category } from 'src/app/models/category';
 import { DataService } from 'src/app/services/data.service';
@@ -26,6 +27,7 @@ export class UserSpaceComponent {
   editMode = false;
 
   constructor(
+    private alertService: AlertService,
     private route: ActivatedRoute, 
     private location: Location,
     private modalController: ModalController,
@@ -35,7 +37,8 @@ export class UserSpaceComponent {
     ) {}
 
   onRefresh(event: any) {
-    this.apiService.getExpensesFromSpaceId(this.spaceId)
+    this.apiService.getExpensesFromSpaceId(this.spaceId, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe(expenses => {
         this.dataService.expenses = expenses;
         event.target.complete();
@@ -50,16 +53,17 @@ export class UserSpaceComponent {
     this.dataService.clearExpenses();
 
     // Get new expenses from API
-    this.apiService.getExpensesFromSpaceId(this.spaceId)
+    this.apiService.getExpensesFromSpaceId(this.spaceId, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe(expenses => this.dataService.expenses = expenses);
 
     // Get category from API
-    this.apiService.getCategoriesFromSpace(this.spaceId)
+    this.apiService.getCategoriesFromSpace(this.spaceId, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe(categories => this.dataService.categories = categories);
 
     // Get space from its ID
     this.space = this.dataService.findSpaceById(this.spaceId);
-    this._loadCategory();
   }
 
   onExpense(expenseId: string) {
@@ -98,7 +102,8 @@ export class UserSpaceComponent {
   }
 
   onDelete(spaceId: string) {
-    this.apiService.deleteExpense(this.spaceId, spaceId)
+    this.apiService.deleteExpense(this.spaceId, spaceId, 
+      (err) => this.alertService.apiErrorAlert(err))
       .subscribe(_ => {
         this.router.navigate([`space/${this.spaceId}`]);
         this.dataService.removeExpenseById(spaceId);
@@ -131,23 +136,13 @@ export class UserSpaceComponent {
       }
       this.expense = this.expenseToEdit;
       this.editMode = false;
-      this.apiService.patchExpense(this.spaceId, this.expense).subscribe();
-      this._loadCategory();
+      this.apiService.patchExpense(this.spaceId, this.expense, 
+        (err) => this.alertService.apiErrorAlert(err)).subscribe();
     }
   }
 
   onCancel() {
     this.editMode = false;
     this.expenseToEdit = this.expense;
-  }
-
-  onCategoryChange() {
-    this._loadCategory();
-  }
-
-  _loadCategory() {
-    // if (this.expense && this.expense.expense_category) {
-    //   this.category = this.dataService.findCategoryById(this.expense.expense_category);
-    // }
   }
 }

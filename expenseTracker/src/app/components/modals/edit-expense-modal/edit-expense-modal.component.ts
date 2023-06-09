@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
 import { Expense } from 'src/app/models/expense';
@@ -23,6 +24,7 @@ export class EditExpenseModalComponent  implements OnInit {
   categoriesSelect: (Category |null)[] = [];
 
   constructor(
+    private alertService: AlertService,
     private modalController: ModalController, 
     private apiService: ApiService,
     public dataService: DataService,
@@ -46,7 +48,8 @@ export class EditExpenseModalComponent  implements OnInit {
 
   onEdit() {
     if (this.isNewExpense) {
-      this.apiService.createExpense(this.spaceId, this.expenseDescription, this.expenseCost)
+      this.apiService.createExpense(this.spaceId, this.expenseDescription, this.expenseCost,
+        (err) => this.alertService.apiErrorAlert(err))
         .subscribe(result => this.modalController.dismiss(result as Expense, 'valid'));
     } else {
       const expense = this.dataService.findExpenseById(this.expenseId);

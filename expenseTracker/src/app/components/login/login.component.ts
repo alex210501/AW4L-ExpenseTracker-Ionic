@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { Credentials } from 'src/app/models/credentials';
 
@@ -12,11 +13,11 @@ import { Credentials } from 'src/app/models/credentials';
 export class LoginComponent {
   credentials = new Credentials;
 
-  constructor(private router: Router, private apiService: ApiService){}
+  constructor(private alertService: AlertService, private router: Router, private apiService: ApiService){}
 
   onLogin() {
-    this.apiService.login(this.credentials).subscribe(_ => this.router.navigate(['spaces']));
-    // this.apiService.login(this.credentials).subscribe(() => {});
+    this.apiService.login(this.credentials, (err) => this.alertService.apiErrorAlert(err))
+      .subscribe(_ => this.router.navigate(['spaces']));
   }
 
   goToSignUp() {

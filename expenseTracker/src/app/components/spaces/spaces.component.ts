@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiService } from 'src/app/services/api.service';
 import { CreateSpaceModalComponent } from '../modals/create-space-modal/create-space-modal.component';
 import { JoinSpaceModalComponent } from '../modals/join-space-modal/join-space-modal.component';
@@ -15,6 +16,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class SpacesComponent {
   constructor(
+    private alertService: AlertService,
     private router: Router, 
     private apiService: ApiService, 
     private modalController: ModalController,
@@ -22,7 +24,8 @@ export class SpacesComponent {
     ) {}
 
   ngOnInit() {
-    this.apiService.getSpaces().subscribe(spaces => this.dataService.spaces = spaces);
+    this.apiService.getSpaces((err) => this.alertService.apiErrorAlert(err))
+      .subscribe(spaces => this.dataService.spaces = spaces);
   }
 
   onSpace(spaceId: string) {
@@ -30,9 +33,10 @@ export class SpacesComponent {
   }
 
   onRefresh(event: any) {
-    this.apiService.getSpaces().subscribe(spaces => {
-      this.dataService.spaces = spaces;
-      event.target.complete();
+    this.apiService.getSpaces((err) => this.alertService.apiErrorAlert(err))
+      .subscribe(spaces => {
+        this.dataService.spaces = spaces;
+        event.target.complete();
     });
   }
 
@@ -54,9 +58,10 @@ export class SpacesComponent {
 
   onDelete(spaceId: string) {
     // event.stopPropagation();
-    this.apiService.deleteSpace(spaceId).subscribe(_ => {
-      this.dataService.removeSpaceById(spaceId);
-    });
+    this.apiService.deleteSpace(spaceId, (err) => this.alertService.apiErrorAlert(err))
+      .subscribe(_ => {
+        this.dataService.removeSpaceById(spaceId);
+      });
   }
 
   async openCreateSpaceModal() {
@@ -82,10 +87,11 @@ export class SpacesComponent {
     const { data, role } = await modal.onWillDismiss();
 
     if (role == 'confirm' && data) {
-      this.apiService.joinSpace(data).subscribe((_) => {
-        this.apiService.getSpaceById(data)
-          .subscribe((space) => this.dataService.spaces.push(space));
-      });
+      this.apiService.joinSpace(data, (err) => this.alertService.apiErrorAlert(err))
+        .subscribe((_) => {
+          this.apiService.getSpaceById(data)
+            .subscribe((space) => this.dataService.spaces.push(space));
+          });
     }
   }
 }
