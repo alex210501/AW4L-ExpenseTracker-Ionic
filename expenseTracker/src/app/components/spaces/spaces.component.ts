@@ -33,8 +33,10 @@ export class SpacesComponent {
   }
 
   onRefresh(event: any) {
-    this.apiService.getSpaces((err) => this.alertService.apiErrorAlert(err))
-      .subscribe(spaces => {
+    this.apiService.getSpaces((err) => {
+      this.alertService.apiErrorAlert(err);
+      event.target.complete();
+    }).subscribe(spaces => {
         this.dataService.spaces = spaces;
         event.target.complete();
     });

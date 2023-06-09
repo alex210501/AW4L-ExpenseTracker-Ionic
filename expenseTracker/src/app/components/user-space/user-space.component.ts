@@ -50,7 +50,10 @@ export class UserSpaceComponent {
 
   onRefresh(event: any) {
     this.apiService.getExpensesFromSpaceId(this.spaceId, 
-      (err) => this.alertService.apiErrorAlert(err))
+      (err) => {
+        this.alertService.apiErrorAlert(err);
+        event.target.complete();
+      })
       .subscribe(expenses => {
         this.dataService.expenses = expenses;
         event.target.complete();
