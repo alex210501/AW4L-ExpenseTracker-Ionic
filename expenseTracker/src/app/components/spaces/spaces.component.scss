@@ -9,24 +9,24 @@ ion-toolbar {
 }
 
 .space-body {
-    width: 100%;
+  width: 100%;
 
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .space-list {
-    overflow: hidden;
-    background-color: var(--ion-list-background);
+  overflow: hidden;
+  background-color: var(--ion-list-background);
 }
 
 .space-item {
-    border: 2px solid grey;
-    border-radius: 1em;
-    margin-bottom: 1.0em;
+  border: 2px solid grey;
+  border-radius: 1em;
+  margin-bottom: 1.0em;
 }
 
-.space-item > ion-item {
+.space-item>ion-item {
   --padding-start: 0.5em;
   --padding-end: 0.5em;
   --padding-top: 0.5em;
@@ -39,16 +39,16 @@ ion-toolbar {
 }
 
 .space-title {
-    color: white;
-    overflow: hidden;
-    font-size: 1.2em;
+  color: white;
+  overflow: hidden;
+  font-size: 1.2em;
 }
 
 .space-subtitle {
-    color: rgb(192, 189, 189);
-    overflow: hidden;
+  color: rgb(192, 189, 189);
+  overflow: hidden;
 }
 
 .space-icon-button {
-    color: white;
+  color: white;
 }

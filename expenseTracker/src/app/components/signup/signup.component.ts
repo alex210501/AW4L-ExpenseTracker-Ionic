@@ -11,9 +11,13 @@ import { User } from 'src/app/models/user';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent  implements OnInit {
+
+/**
+ * Screen to sign up
+ */
+export class SignupComponent implements OnInit {
   validationForm!: FormGroup;
-  user: User = { 
+  user: User = {
     user_username: '',
     user_firstname: '',
     user_lastname: '',
@@ -21,12 +25,24 @@ export class SignupComponent  implements OnInit {
     user_password: '',
   };
 
+  /**
+   * Constructor
+   * @param alertService Service that shows an alert
+   * @param formBuilder Form builder
+   * @param router Used to change the route
+   * @param apiService Service to access the API
+   */
   constructor(
     private alertService: AlertService,
-    private formBuilder: FormBuilder, 
-    private router: Router, 
+    private formBuilder: FormBuilder,
+    private router: Router,
     private apiService: ApiService) { }
 
+  /**
+   * Validator for the password confirmation
+   * @param control Form control to access the form fields
+   * @returns null
+   */
   _checkRetypePassword(control: FormControl) {
     let password: string = control.get('password')?.value;
     let confirmPassword: string = control.get('confirmPassword')?.value;
@@ -35,11 +51,14 @@ export class SignupComponent  implements OnInit {
       return null;
     }
 
+    // Set an alert on confirmPassword
     control.get("confirmPassword")?.setErrors({ mismatch: true });
     return null;
   }
 
-
+  /**
+   * Initialize components
+   */
   ngOnInit() {
     this.validationForm = this.formBuilder.group({
       username: new FormControl('', Validators.compose([Validators.required, Validators.minLength(8)])),
@@ -48,13 +67,19 @@ export class SignupComponent  implements OnInit {
       email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
       password: new FormControl('', Validators.required),
       confirmPassword: new FormControl('', Validators.required),
-    }, { validators: this._checkRetypePassword});
+    }, { validators: this._checkRetypePassword });
   }
 
+  /**
+   * Callback to sign in
+   */
   onSignIn() {
     this.router.navigate(['login']);
   }
 
+  /**
+   * Callback to sign up
+   */
   onSignUp() {
     if (this.validationForm.valid) {
       this.user.user_username = this.validationForm.get('username')!.value;

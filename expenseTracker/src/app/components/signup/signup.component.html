@@ -8,16 +8,21 @@
   <ion-card class="signup-body">
     <ion-card-content class="signup-content">
       <form [formGroup]="validationForm">
-        <ion-input label="Username" formControlName="username" placeholder="Enter your username" type="text"></ion-input>
-        <ion-input label="Firstname" formControlName="firstname" placeholder="Enter your firstname" type="text"></ion-input>
-        <ion-input label="Lastname" formControlName="lastname" placeholder="Enter your lastname" type="text"></ion-input>
+        <ion-input label="Username" formControlName="username" placeholder="Enter your username"
+          type="text"></ion-input>
+        <ion-input label="Firstname" formControlName="firstname" placeholder="Enter your firstname"
+          type="text"></ion-input>
+        <ion-input label="Lastname" formControlName="lastname" placeholder="Enter your lastname"
+          type="text"></ion-input>
         <ion-input label="Email" formControlName="email" placeholder="Enter your email" type="email"></ion-input>
-        <ion-input label="Password" formControlName="password" placeholder="Enter your password" type="password"></ion-input>
-        <ion-input label="Confirm password" formControlName="confirmPassword" placeholder="Confirm your password" type="password"></ion-input>
-  
+        <ion-input label="Password" formControlName="password" placeholder="Enter your password"
+          type="password"></ion-input>
+        <ion-input label="Confirm password" formControlName="confirmPassword" placeholder="Confirm your password"
+          type="password"></ion-input>
+
         <div class="signup-buttons">
-            <ion-button type="submit" color="primary" (click)="onSignUp()">Sign Up</ion-button>
-            <ion-button color="primary" (click)="onSignIn()">Login</ion-button>
+          <ion-button type="submit" color="primary" (click)="onSignUp()">Sign Up</ion-button>
+          <ion-button color="primary" (click)="onSignIn()">Login</ion-button>
         </div>
       </form>
     </ion-card-content>

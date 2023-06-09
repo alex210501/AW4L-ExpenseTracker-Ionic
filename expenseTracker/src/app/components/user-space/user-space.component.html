@@ -17,22 +17,18 @@
   </ion-refresher>
 
   <ion-list class="expense-list">
-    <ion-item-sliding
-      *ngFor="let expense of dataService.expenses"
-      class="expense-tile"
-    >
+    <ion-item-sliding *ngFor="let expense of dataService.expenses" class="expense-tile">
       <ion-item (click)="onExpense(expense.expense_id)">
         <div class="ion-item-content">
           <ion-label>
             <div class="expense-title">{{ expense.expense_description }}</div>
-            <div
-              >Paid by
+            <div>Paid by
               <strong>{{
                 this.dataService.username === expense.expense_paid_by
-                  ? "You"
-                  : expense.expense_paid_by
-              }}</strong></div
-            >
+                ? "You"
+                : expense.expense_paid_by
+                }}</strong>
+            </div>
           </ion-label>
           <ion-label>
             <div>{{ expense.expense_cost }} €</div>

@@ -24,18 +24,9 @@
     <h1>Collaborators</h1>
 
     <ion-list class="list">
-      <ion-item
-        class="list-item"
-        *ngFor="let collaborator of space.space_collaborators"
-      >
+      <ion-item class="list-item" *ngFor="let collaborator of space.space_collaborators">
         <ion-label>{{ collaborator }}</ion-label>
-        <ion-button
-          *ngIf="isAdmin"
-          slot="end"
-          fill="clear"
-          color="danger"
-          (click)="onDeleteCollaborator(collaborator)"
-        >
+        <ion-button *ngIf="isAdmin" slot="end" fill="clear" color="danger" (click)="onDeleteCollaborator(collaborator)">
           <ion-icon name="trash" />
         </ion-button>
       </ion-item>
@@ -51,18 +42,10 @@
     <h1>Categories</h1>
 
     <ion-list class="list">
-      <ion-item
-        class="list-item"
-        *ngFor="let category of dataService.categories"
-      >
+      <ion-item class="list-item" *ngFor="let category of dataService.categories">
         <ion-label>{{ category.category_title }}</ion-label>
-        <ion-button
-          *ngIf="isAdmin"
-          slot="end"
-          fill="clear"
-          color="danger"
-          (click)="onDeleteCategory(category.category_id)"
-        >
+        <ion-button *ngIf="isAdmin" slot="end" fill="clear" color="danger"
+          (click)="onDeleteCategory(category.category_id)">
           <ion-icon name="trash" />
         </ion-button>
       </ion-item>

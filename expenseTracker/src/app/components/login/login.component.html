@@ -7,23 +7,12 @@
 <ion-content>
   <ion-card class="login-form">
     <ion-card-content>
-      <ion-input
-        label="Username"
-        placeholder="Enter your username"
-        type="text"
-        [(ngModel)]="credentials.username"
-      />
-      <ion-input
-        label="Password"
-        placeholder="Enter your password"
-        type="password"
-        [(ngModel)]="credentials.password"
-      />
+      <ion-input label="Username" placeholder="Enter your username" type="text" [(ngModel)]="credentials.username" />
+      <ion-input label="Password" placeholder="Enter your password" type="password"
+        [(ngModel)]="credentials.password" />
 
       <div class="login-button">
-        <ion-button (click)="onLogin()" (keyup.enter)="onLogin()"
-          >Connect</ion-button
-        >
+        <ion-button (click)="onLogin()" (keyup.enter)="onLogin()">Connect</ion-button>
         <ion-button (click)="goToSignUp()">Sign Up</ion-button>
       </div>
     </ion-card-content>

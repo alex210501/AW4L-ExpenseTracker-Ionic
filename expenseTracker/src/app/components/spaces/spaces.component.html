@@ -11,7 +11,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content />
   </ion-refresher>
-  
+
   <ion-list class="space-list">
     <ion-item-sliding *ngFor="let space of dataService.spaces;" class="space-item">
       <ion-item (click)="onSpace(space.space_id)">
@@ -19,9 +19,9 @@
           <ion-label class="space-title">{{space.space_name}}</ion-label>
           <ion-label class="space-subtitle">{{space.space_description}}</ion-label>
         </div>
-      
+
         <ion-button slot="end" fill="clear" (click)="onEdit($event, space.space_id)">
-          <ion-icon class="space-icon-button"  name="create"></ion-icon>
+          <ion-icon class="space-icon-button" name="create"></ion-icon>
         </ion-button>
       </ion-item>
 
@@ -32,7 +32,7 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>

@@ -11,16 +11,30 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
+/**
+ * Screen to login
+ */
 export class LoginComponent {
   credentials = new Credentials;
 
+  /**
+   * Constructor
+   * @param alertService Service to display an alert
+   * @param router Used to change the route
+   * @param apiService Service to access the API
+   * @param dataService Access the shared data
+   */
   constructor(
-    private alertService: AlertService, 
-    private router: Router, 
+    private alertService: AlertService,
+    private router: Router,
     private apiService: ApiService,
     private dataService: DataService,
-    ){}
+  ) { }
 
+  /**
+   * Callback when the user want to login
+   */
   onLogin() {
     this.apiService.login(this.credentials, (err) => this.alertService.apiErrorAlert(err))
       .subscribe(_ => {
@@ -29,6 +43,9 @@ export class LoginComponent {
       });
   }
 
+  /**
+   * Callback to sign up
+   */
   goToSignUp() {
     this.router.navigate(['signup']);
   }

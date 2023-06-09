@@ -17,6 +17,10 @@ import { Expense } from 'src/app/models/expense';
   templateUrl: './user-space.component.html',
   styleUrls: ['./user-space.component.scss']
 })
+
+/**
+ * Screen to display the expenses
+ */
 export class UserSpaceComponent {
   spaceId = '';
   space?: Space;
@@ -26,16 +30,31 @@ export class UserSpaceComponent {
   category?: Category;
   editMode = false;
 
+  /**
+   * Constructor
+   * @param alertService Service to shows an alert
+   * @param route Get the parameters passed to the route
+   * @param location Access the route history
+   * @param modalController Modal controller
+   * @param router Used to change the route
+   * @param apiService Service to access the API
+   * @param dataService Access the shared data
+   */
   constructor(
     private alertService: AlertService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private location: Location,
     private modalController: ModalController,
     private router: Router,
-    private apiService: ApiService, 
+    private apiService: ApiService,
     public dataService: DataService,
-    ) {}
+  ) { }
 
+  /**
+   * Get the total expenses of the space
+   * @param username Username, optional
+   * @returns Total expenses in euros
+   */
   getTotalExpenses(username: string | null = null): number {
     return this.dataService.expenses.reduce((acc, expense) => {
       if (username == null || username == expense.expense_paid_by) {
@@ -46,10 +65,18 @@ export class UserSpaceComponent {
     }, 0);
   }
 
+  /**
+   * Get total expenses for the current user
+   * @returns Total expenses in euros
+   */
   getTotalExpensesUser = () => this.getTotalExpenses(this.dataService.username);
 
+  /**
+   * Callback when the expenses are refreshed
+   * @param event Event that happended
+   */
   onRefresh(event: any) {
-    this.apiService.getExpensesFromSpaceId(this.spaceId, 
+    this.apiService.getExpensesFromSpaceId(this.spaceId,
       (err) => {
         this.alertService.apiErrorAlert(err);
         event.target.complete();
@@ -60,6 +87,9 @@ export class UserSpaceComponent {
       });
   }
 
+  /**
+   * Initialize components
+   */
   ngOnInit() {
     // Get space ID from path
     this.spaceId = this.route.snapshot.paramMap.get('space_id') ?? '';
@@ -68,12 +98,12 @@ export class UserSpaceComponent {
     this.dataService.clearExpenses();
 
     // Get new expenses from API
-    this.apiService.getExpensesFromSpaceId(this.spaceId, 
+    this.apiService.getExpensesFromSpaceId(this.spaceId,
       (err) => this.alertService.apiErrorAlert(err))
       .subscribe(expenses => this.dataService.expenses = expenses);
 
     // Get category from API
-    this.apiService.getCategoriesFromSpace(this.spaceId, 
+    this.apiService.getCategoriesFromSpace(this.spaceId,
       (err) => this.alertService.apiErrorAlert(err))
       .subscribe(categories => this.dataService.categories = categories);
 
@@ -81,9 +111,13 @@ export class UserSpaceComponent {
     this.space = this.dataService.findSpaceById(this.spaceId);
   }
 
+  /**
+   * Callback to access the expense information
+   * @param expenseId ID of the expense
+   */
   onExpense(expenseId: string) {
     this.expense = this.dataService.findExpenseById(expenseId) as Expense;
-    
+
     if (this.expense) {
       // this.category = this.dataService.findCategoryById(this.expense.expense_category ?? '');
       this.expenseToEdit = new Expense(this.expense);
@@ -91,6 +125,9 @@ export class UserSpaceComponent {
     }
   }
 
+  /**
+   * Callback to open a dialog to create an expense
+   */
   async openCreateExpenseDialog() {
     const modal = await this.modalController.create({
       component: EditExpenseModalComponent,
@@ -108,16 +145,19 @@ export class UserSpaceComponent {
     }
   }
 
+  /**
+   * Callback to go to the previous screen
+   */
   goBack() {
     this.location.back();
   }
 
-  onEdit() {
-    this.editMode = !this.editMode;
-  }
-
+  /**
+   * Callback to delete a space
+   * @param spaceId ID of the space
+   */
   onDelete(spaceId: string) {
-    this.apiService.deleteExpense(this.spaceId, spaceId, 
+    this.apiService.deleteExpense(this.spaceId, spaceId,
       (err) => this.alertService.apiErrorAlert(err))
       .subscribe(_ => {
         this.router.navigate([`space/${this.spaceId}`]);
@@ -126,6 +166,9 @@ export class UserSpaceComponent {
       });
   }
 
+  /**
+   * Callback to show the QR code of the space
+   */
   async showQrCode() {
     const modal = await this.modalController.create({
       component: ShowQrcodeModalComponent,
@@ -134,30 +177,5 @@ export class UserSpaceComponent {
 
     // Open
     modal.present();
-  }
-
-  onSave() {
-    if (this.expenseToEdit) {
-      if (this.expense) {
-        this.expense.expense_id = this.expenseToEdit.expense_id;
-        this.expense.expense_cost = this.expenseToEdit.expense_cost;
-        this.expense.expense_description = this.expenseToEdit.expense_description;
-        this.expense.expense_date = this.expenseToEdit.expense_date;
-        this.expense.expense_space = this.expenseToEdit.expense_space;
-        this.expense.expense_paid_by = this.expenseToEdit.expense_paid_by;
-        this.expense.expense_category = this.expenseToEdit.expense_category;
-      } else {
-        this.expense = new Expense(this.expenseToEdit);
-      }
-      this.expense = this.expenseToEdit;
-      this.editMode = false;
-      this.apiService.patchExpense(this.spaceId, this.expense, 
-        (err) => this.alertService.apiErrorAlert(err)).subscribe();
-    }
-  }
-
-  onCancel() {
-    this.editMode = false;
-    this.expenseToEdit = this.expense;
   }
 }

@@ -11,11 +11,16 @@ import { Token } from '../models/token';
 import { User } from '../models/user';
 import { Category } from '../models/category';
 
+// Option passed to the HTTP requests
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json',
+    'Content-Type': 'application/json',
   })
 };
+
+/**
+ * PATH
+ */
 const URL = 'https://alejandro-borbolla.com/expensestracker/api';
 const LOGIN_URL = `${URL}/auth/login`;
 const LOGOUT_URL = `${URL}/logout`;
@@ -47,11 +52,24 @@ type ErrorCallback = (error: any) => void;
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Service to access the API
+ */
 export class ApiService {
   private token = '';
 
+  /**
+   * Constructor
+   * @param http HTTP client
+   */
   constructor(private http: HttpClient) { }
 
+  /**
+   * Function to handle errors
+   * @param error Error that occured
+   * @param errorCallback Callback to handler an error
+   */
   private handleError(error: any, errorCallback?: ErrorCallback): Observable<never> {
     if (errorCallback) {
       errorCallback(error);
@@ -62,6 +80,11 @@ export class ApiService {
     return of();
   }
 
+  /**
+   * Login to the API
+   * @param credentials Credentials to authenticate
+   * @param errorCallback Error callback
+   */
   login(credentials: Credentials, errorCallback?: ErrorCallback) {
     return this.http.post<Token>(LOGIN_URL, JSON.stringify(credentials), httpOptions).pipe(
       tap(token => {
@@ -72,11 +95,20 @@ export class ApiService {
     );
   }
 
+  /**
+   * Logout from the API
+   * @param errorCallback Error callback
+   */
   logout(errorCallback?: ErrorCallback) {
     return this.http.post(LOGOUT_URL, {}, httpOptions)
       .pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Create a new user
+   * @param user User to create
+   * @param errorCallback Error callback
+   */
   createUser(user: User, errorCallback?: ErrorCallback) {
     return this.http.post<User>(CREATE_USER_URL, JSON.stringify(user), httpOptions).pipe(
       tap(_ => console.log('User created')),
@@ -84,19 +116,33 @@ export class ApiService {
     );
   }
 
+  /**
+   * Get spaces of a user
+   */
   getSpaces(errorCallback?: ErrorCallback): Observable<Space[]> {
     return this.http.get<Space[]>(SPACES_URL, httpOptions)
       .pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Get a space given its space ID
+   * @param spaceId ID of the space
+   * @param errorCallback Error callback
+   */
   getSpaceById(spaceId: string, errorCallback?: ErrorCallback): Observable<Space> {
     return this.http.get<Space>(
       SPACE_ID_URL.replace(':space_id', spaceId),
       httpOptions
-      ).pipe(catchError((err) => this.handleError(err, errorCallback)));
+    ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
-  createSpace(spaceName: string, spaceDescription: string, 
+  /**
+   * Create a new space
+   * @param spaceName Name of the space
+   * @param spaceDescription Description
+   * @param errorCallback Error callback
+   */
+  createSpace(spaceName: string, spaceDescription: string,
     errorCallback?: ErrorCallback): Observable<Object> {
     const spaceJson = {
       space_name: spaceName,
@@ -107,6 +153,11 @@ export class ApiService {
       .pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Edit an existing space
+   * @param space Edited space
+   * @param errorCallback Error callback
+   */
   patchSpace(space: Space, errorCallback?: ErrorCallback): Observable<Space> {
     const spaceJson = {
       space_name: space.space_name,
@@ -120,9 +171,14 @@ export class ApiService {
       spaceJson,
       httpOptions,
     )
-    .pipe(catchError((err) => this.handleError(err, errorCallback)));
+      .pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Delete space given its ID
+   * @param spaceId ID of the space to delete
+   * @param errorCallback Error callback
+   */
   deleteSpace(spaceId: string, errorCallback?: ErrorCallback) {
     return this.http.delete(
       SPACE_ID_URL.replace(':space_id', spaceId),
@@ -130,15 +186,26 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Get all expenses from a space
+   * @param spaceId ID of the space
+   */
   getExpensesFromSpaceId(spaceId: string, errorCallback?: ErrorCallback): Observable<Expense[]> {
     return this.http.get<Expense[]>(EXPENSE_URL.replace(':space_id', spaceId), httpOptions)
       .pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Create an expense in a space
+   * @param spaceId ID of the space
+   * @param expenseDescription Description
+   * @param expenseCost Cost
+   * @param errorCallback Error callback
+   */
   createExpense(
-    spaceId: string, 
-    expenseDescription: 
-    string, expenseCost: number, 
+    spaceId: string,
+    expenseDescription:
+      string, expenseCost: number,
     errorCallback?: ErrorCallback): Observable<Expense> {
     const expenseJson = {
       expense_description: expenseDescription,
@@ -146,14 +213,20 @@ export class ApiService {
     };
 
     return this.http.post<Expense>(
-      EXPENSE_URL.replace(':space_id', spaceId), 
-      expenseJson, 
+      EXPENSE_URL.replace(':space_id', spaceId),
+      expenseJson,
       httpOptions).pipe(
         catchError((err) => this.handleError(err, errorCallback)),
       );
   }
 
-  patchExpense(spaceId: string, expense: Expense, 
+  /**
+   * Edit an existing expense in a space
+   * @param spaceId ID of the space
+   * @param expense Edited expense
+   * @param errorCallback Error callback
+   */
+  patchExpense(spaceId: string, expense: Expense,
     errorCallback?: ErrorCallback): Observable<Map<string, string>> {
     let expenseJson = {
       expense_description: expense.expense_description,
@@ -163,16 +236,27 @@ export class ApiService {
     console.log(expense.expense_category);
     return this.http.patch<Map<string, string>>(
       EXPENSE_ID_URL.replace(':space_id', spaceId).replace(':expense_id', expense.expense_id),
-      expenseJson, 
+      expenseJson,
       httpOptions).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Delete an expense given its space and expense ID
+   * @param spaceId ID of the space
+   * @param expenseId ID of the expense
+   * @param errorCallback Error callback
+   */
   deleteExpense(spaceId: string, expenseId: string, errorCallback?: ErrorCallback): Observable<Expense> {
     return this.http.delete<Expense>(
-      EXPENSE_ID_URL.replace(':space_id', spaceId).replace(':expense_id', expenseId), 
+      EXPENSE_ID_URL.replace(':space_id', spaceId).replace(':expense_id', expenseId),
       httpOptions).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Get all the categories from a space
+   * @param spaceId ID of the space
+   * @param errorCallback Error callback
+   */
   getCategoriesFromSpace(spaceId: string, errorCallback?: ErrorCallback): Observable<Category[]> {
     return this.http.get<Category[]>(
       CATEGORY_URL.replace(':space_id', spaceId),
@@ -180,6 +264,12 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Create a category inside a space
+   * @param spaceId ID of the space
+   * @param categoryTitle Title of the category
+   * @param errorCallback Error callback
+   */
   createCategoryToSpace(spaceId: string, categoryTitle: string, errorCallback?: ErrorCallback): Observable<Category> {
     return this.http.post<Category>(
       CATEGORY_URL.replace(':space_id', spaceId),
@@ -188,8 +278,14 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
-  deleteCategoryFromSpace(spaceId: string, 
-    categoryId: string, 
+  /**
+   * Delete a category from a space
+   * @param spaceId ID of the space
+   * @param categoryId ID of the category
+   * @param errorCallback Error callback
+   */
+  deleteCategoryFromSpace(spaceId: string,
+    categoryId: string,
     errorCallback?: ErrorCallback): Observable<Category> {
     return this.http.delete<Category>(
       CATEGORY_ID_URL.replace(':space_id', spaceId).replace(':category_id', categoryId),
@@ -197,8 +293,14 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
-  addUserToSpace(spaceId: string, 
-    username: string, 
+  /**
+   * Add a user to the space
+   * @param spaceId ID of the space
+   * @param username Username to add
+   * @param errorCallback Error callback
+   */
+  addUserToSpace(spaceId: string,
+    username: string,
     errorCallback?: ErrorCallback): Observable<Collaborator> {
     return this.http.post<Collaborator>(
       SPACE_USER_URL.replace(':space_id', spaceId),
@@ -207,6 +309,12 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Delete a user from a space
+   * @param spaceId ID of the space
+   * @param username Username to delete
+   * @param errorCallback Error callback
+   */
   deleteUserFromSpace(spaceId: string, username: string, errorCallback?: ErrorCallback): Observable<Object> {
     return this.http.delete(
       SPACE_USER_ID_URL.replace(':space_id', spaceId).replace(':username', username),
@@ -214,6 +322,11 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Join a space by its ID
+   * @param spaceId ID of the space to join
+   * @param errorCallback Error callback
+   */
   joinSpace(spaceId: string, errorCallback?: ErrorCallback): Observable<Collaborator> {
     return this.http.post<Collaborator>(
       SPACE_JOIN_URL.replace(':space_id', spaceId),
@@ -222,6 +335,12 @@ export class ApiService {
     ).pipe(catchError((err) => this.handleError(err, errorCallback)));
   }
 
+  /**
+   * Quit a space
+   * @param spaceId ID of the space
+   * @param errorCallback Error callback
+   * @returns 
+   */
   quitSpace(spaceId: string, errorCallback?: ErrorCallback): Observable<Collaborator> {
     return this.http.post<Collaborator>(
       SPACE_QUIT_URL.replace(':space_id', spaceId),

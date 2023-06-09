@@ -14,7 +14,11 @@ import { Category } from 'src/app/models/category';
   templateUrl: './edit-expense-modal.component.html',
   styleUrls: ['./edit-expense-modal.component.scss'],
 })
-export class EditExpenseModalComponent  implements OnInit {
+
+/**
+ * Modal to edit or create an expense
+ */
+export class EditExpenseModalComponent implements OnInit {
   validationForm!: FormGroup;
   isNewExpense = false;
   spaceId = '';
@@ -22,16 +26,29 @@ export class EditExpenseModalComponent  implements OnInit {
   expenseDescription = '';
   expenseCost = 0.0;
   category: Category | null = null;
-  categoriesSelect: (Category |null)[] = [];
+  categoriesSelect: (Category | null)[] = [];
 
+  /**
+   * Constructor
+   * @param alertService Service to create an alert
+   * @param formBuilder Builder to create a form
+   * @param modalController Modal controller
+   * @param apiService Service to access the API
+   * @param dataService Access the shared data
+   */
   constructor(
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    private modalController: ModalController, 
+    private modalController: ModalController,
     private apiService: ApiService,
     public dataService: DataService,
-    ) { }
+  ) { }
 
+  /**
+   * Validator for the cost
+   * @param control Form control to access the form fields
+   * @returns null
+   */
   _checkCost(control: FormControl) {
     let cost: number = Number.parseFloat(control.get('cost')?.value);
 
@@ -42,11 +59,14 @@ export class EditExpenseModalComponent  implements OnInit {
     return null;
   }
 
+  /**
+   * Initialize components
+   */
   ngOnInit() {
     this.validationForm = this.formBuilder.group({
       description: new FormControl('', Validators.required),
       cost: new FormControl(0.0, Validators.required),
-    }, { validators: this._checkCost});
+    }, { validators: this._checkCost });
 
     // If an expenseId has been passed, retrieve its arguments
     if (this.expenseId != null) {
@@ -63,6 +83,9 @@ export class EditExpenseModalComponent  implements OnInit {
     }
   }
 
+  /**
+   * Callback to edit the expense
+   */
   onEdit() {
     if (this.validationForm.valid) {
       if (this.isNewExpense) {
@@ -71,17 +94,21 @@ export class EditExpenseModalComponent  implements OnInit {
           .subscribe(result => this.modalController.dismiss(result as Expense, 'valid'));
       } else {
         const expense = this.dataService.findExpenseById(this.expenseId);
-  
+
         // Update parameters
         expense!.expense_description = this.expenseDescription;
         expense!.expense_cost = this.expenseCost;
         expense!.expense_category = this.category?.category_id ?? null;
-  
+
         this.modalController.dismiss(expense, 'valid')
       }
     }
   }
 
+  /**
+   * Callback to cancel the modification
+   * @returns Result of the modal controller
+   */
   onCancel() {
     return this.modalController.dismiss(null, 'cancel');
   }

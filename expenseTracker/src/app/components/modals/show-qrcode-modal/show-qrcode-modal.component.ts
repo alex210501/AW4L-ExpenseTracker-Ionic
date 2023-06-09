@@ -6,18 +6,32 @@ import { ModalController } from '@ionic/angular';
   templateUrl: './show-qrcode-modal.component.html',
   styleUrls: ['./show-qrcode-modal.component.scss'],
 })
-export class ShowQrcodeModalComponent  implements OnInit {
+
+/**
+ * Modal that display the space QR code
+ */
+export class ShowQrcodeModalComponent implements OnInit {
   qrCode = '';
 
+  /**
+   * Constructor
+   * @param modalController Modal controller
+   */
   constructor(private modalController: ModalController,) { }
 
+  /**
+   * Initialize component
+   */
   ngOnInit() {
     if (this.qrCode == null) {
       this.modalController.dismiss();
     }
   }
 
-  onClose() { 
+  /**
+   * Callback to close the modal
+   */
+  onClose() {
     this.modalController.dismiss();
   }
 }

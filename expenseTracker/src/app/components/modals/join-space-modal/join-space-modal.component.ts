@@ -9,20 +9,40 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './join-space-modal.component.html',
   styleUrls: ['./join-space-modal.component.scss'],
 })
-export class JoinSpaceModalComponent  implements OnInit {
+
+/**
+ * Modal to join a space
+ */
+export class JoinSpaceModalComponent implements OnInit {
   spaceId = '';
 
+  /**
+   * Constructor
+   * @param modalController Modal controller
+   * @param dataService Access the shared data
+   */
   constructor(
     private modalController: ModalController,
     public dataService: DataService,
-    ) { }
+  ) { }
 
-  ngOnInit() {}
+  /**
+   * Initialize components
+   */
+  ngOnInit() { }
 
+  /**
+   * Callback to cancel the join
+   * @returns Result of the controller
+   */
   onCancel() {
     return this.modalController.dismiss(null, 'cancel');
   }
 
+  /**
+   * Callback to join the space
+   * @returns Result of the controller
+   */
   onJoin() {
     return this.modalController.dismiss(this.spaceId, 'confirm');
   }

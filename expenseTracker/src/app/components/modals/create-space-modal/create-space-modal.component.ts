@@ -16,7 +16,11 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
   templateUrl: './create-space-modal.component.html',
   styleUrls: ['./create-space-modal.component.scss'],
 })
-export class CreateSpaceModalComponent  implements OnInit {
+
+/**
+ * Show a modal to create a space
+ */
+export class CreateSpaceModalComponent implements OnInit {
   isNewSpace = false;
   spaceId = '';
   spaceName = '';
@@ -25,23 +29,40 @@ export class CreateSpaceModalComponent  implements OnInit {
   newCollaborator = '';
   space?: Space;
 
+  /**
+   * Constructor
+   * @param dataService Access the shared data
+   * @param alertService Service to display an alert
+   * @param modalController Control the modal
+   * @param apiService Service to access the API
+   * @param snackbarService Service to launch a SnackBar
+   */
   constructor(
     public dataService: DataService,
     private alertService: AlertService,
-    private modalController: ModalController, 
+    private modalController: ModalController,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
-    ) { }
+  ) { }
 
-  get isAdmin() { 
+  /**
+   * Check if the user is the current admin of the space
+   */
+  get isAdmin() {
     return this.space?.space_admin === this.dataService.username;
   }
 
+  /**
+   * Callback to copy the ID of the space
+   */
   async onCopyId() {
     await Clipboard.write({ string: this.space?.space_id })
       .then(_ => this.snackbarService.presentToast('ID saved to clipboard!'));
   }
 
+  /**
+   * Initialize components
+   */
   ngOnInit() {
     if (this.spaceId == null) {
       this.isNewSpace = true;
@@ -58,6 +79,9 @@ export class CreateSpaceModalComponent  implements OnInit {
     }
   }
 
+  /**
+   * Calback when create a space
+   */
   onCreate() {
     if (this.isNewSpace) {
       this.apiService.createSpace(this.spaceName, this.spaceDescription,
@@ -75,12 +99,9 @@ export class CreateSpaceModalComponent  implements OnInit {
     }
   }
 
-  onDeleteCategory(categoryId: string) {
-    this.apiService.deleteCategoryFromSpace(this.spaceId, categoryId, 
-      (err) => this.alertService.apiErrorAlert(err))
-      .subscribe((_) => this.dataService.removeCategoryById(categoryId));
-  }
-
+  /**
+   * Callback to create a category
+   */
   onCreateCategory() {
     this.apiService.createCategoryToSpace(this.spaceId, this.newCategory)
       .subscribe((category: Category) => {
@@ -89,8 +110,21 @@ export class CreateSpaceModalComponent  implements OnInit {
       });
   }
 
+  /**
+   * Called to delete a category
+   * @param categoryId ID of the category
+   */
+  onDeleteCategory(categoryId: string) {
+    this.apiService.deleteCategoryFromSpace(this.spaceId, categoryId,
+      (err) => this.alertService.apiErrorAlert(err))
+      .subscribe((_) => this.dataService.removeCategoryById(categoryId));
+  }
+
+  /**
+   * Callback to create a collaborator
+   */
   onAddCollaborator() {
-    this.apiService.addUserToSpace(this.spaceId, this.newCollaborator, 
+    this.apiService.addUserToSpace(this.spaceId, this.newCollaborator,
       (err) => this.alertService.apiErrorAlert(err))
       .subscribe((_) => {
         this.space?.space_collaborators.push(this.newCollaborator);
@@ -98,13 +132,20 @@ export class CreateSpaceModalComponent  implements OnInit {
       });
   }
 
+  /**
+   * Callback to delete a collaborator
+   * @param username Username of the collaborator to delete
+   */
   onDeleteCollaborator(username: string) {
-    this.apiService.deleteUserFromSpace(this.spaceId, username, 
+    this.apiService.deleteUserFromSpace(this.spaceId, username,
       (err) => this.alertService.apiErrorAlert(err))
       .subscribe((_) => this.space!.space_collaborators = this.space!.space_collaborators
         .filter((collab) => collab != username));
   }
 
+  /**
+   * Callback to quit the space
+   */
   onQuitSpace() {
     this.apiService.quitSpace(this.spaceId, err => this.alertService.apiErrorAlert(err))
       .subscribe(_ => {
@@ -113,6 +154,10 @@ export class CreateSpaceModalComponent  implements OnInit {
       });
   }
 
+  /**
+   * Callback to cancel the space creation
+   * @returns Result of the modal controller
+   */
   onCancel() {
     return this.modalController.dismiss(null, 'cancel');
   }

@@ -8,14 +8,13 @@ ion-content {
   background-color: var(--ion-list-background);
 }
 
-
 .expense-tile {
   border: 2px solid grey;
   border-radius: 1em;
   margin-bottom: 1.0em;
 }
 
-.expense-tile > ion-item {
+.expense-tile>ion-item {
   --padding-start: 0.5em;
   --padding-end: 0.5em;
   --padding-top: 0.5em;
@@ -23,7 +22,7 @@ ion-content {
 }
 
 .expense-title {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 .ion-item-content {

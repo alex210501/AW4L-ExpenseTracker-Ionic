@@ -16,6 +16,10 @@ import { Category } from 'src/app/models/category';
   templateUrl: './expense-details.component.html',
   styleUrls: ['./expense-details.component.scss'],
 })
+
+/**
+ * Screen that show the details of an expense
+ */
 export class ExpenseDetailComponent {
   spaceId = '';
   expense?: Expense;
@@ -23,6 +27,16 @@ export class ExpenseDetailComponent {
   categoriesSelect: (Category | null)[] = [];
   editMode = false;
 
+  /**
+   * Constructor
+   * @param alertService Service to display an alert
+   * @param route Used to get the parameters passed to the route
+   * @param location Used to get the history location
+   * @param modalController Control de modals
+   * @param router Used to change the route
+   * @param apiService Service to access the API
+   * @param dataService Access to the shared data
+   */
   constructor(
     private alertService: AlertService,
     private route: ActivatedRoute,
@@ -31,8 +45,11 @@ export class ExpenseDetailComponent {
     private router: Router,
     private apiService: ApiService,
     public dataService: DataService
-  ) {}
+  ) { }
 
+  /**
+   * Initialize components
+   */
   ngOnInit() {
     // Get space and expense ID from path
     this.spaceId = this.route.snapshot.paramMap.get('space_id') ?? '';
@@ -44,6 +61,9 @@ export class ExpenseDetailComponent {
     this.category = this.dataService.findCategoryById(this.expense?.expense_category ?? '');
   }
 
+  /**
+   * Callback to edit the expense
+   */
   async onEdit() {
     const modal = await this.modalController.create({
       component: EditExpenseModalComponent,
@@ -57,7 +77,7 @@ export class ExpenseDetailComponent {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'valid' && data) {
-      this.apiService.patchExpense(this.spaceId, data, 
+      this.apiService.patchExpense(this.spaceId, data,
         (err) => this.alertService.apiErrorAlert(err))
         .subscribe((_) => {
           this.dataService.editExpense(data);
@@ -66,6 +86,9 @@ export class ExpenseDetailComponent {
     }
   }
 
+  /**
+   * Callback to delete the expense
+   */
   onDelete() {
     if (this.expense) {
       this.apiService.deleteExpense(this.spaceId, this.expense.expense_id,
@@ -74,6 +97,9 @@ export class ExpenseDetailComponent {
     }
   }
 
+  /**
+   * Go back to the previous screen
+   */
   goBack() {
     this.location.back();
   }
