@@ -30,11 +30,9 @@ export class SignupComponent  implements OnInit {
   _checkRetypePassword(control: FormControl) {
     let password: string = control.get('password')?.value;
     let confirmPassword: string = control.get('confirmPassword')?.value;
-    console.log(password);
-    console.log(confirmPassword);
 
     if (password === confirmPassword) {
-      return null
+      return null;
     }
 
     control.get("confirmPassword")?.setErrors({ mismatch: true });

@@ -72,8 +72,7 @@ export class DataService {
     if (debug) {
       return this.expenses[0];
     }
-    console.log('here');
-    console.log(expenseId);
+
     return this.expenses.find(({ expense_id }) => expense_id === expenseId);
   }
 
