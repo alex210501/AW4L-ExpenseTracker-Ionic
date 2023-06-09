@@ -29,6 +29,10 @@ export class CreateSpaceModalComponent  implements OnInit {
     private apiService: ApiService,
     ) { }
 
+  get isAdmin() { 
+    return this.space?.space_admin === this.dataService.username;
+  }
+
   ngOnInit() {
     if (this.spaceId == null) {
       this.isNewSpace = true;

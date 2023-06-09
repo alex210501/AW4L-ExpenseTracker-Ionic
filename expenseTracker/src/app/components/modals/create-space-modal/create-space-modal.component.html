@@ -20,13 +20,13 @@
     <ion-list class="list">
       <ion-item class="list-item" *ngFor="let collaborator of space.space_collaborators;">
         <ion-label>{{collaborator}}</ion-label>
-        <ion-button slot="end" fill="clear" color="danger" (click)="onDeleteCollaborator(collaborator)">
+        <ion-button *ngIf="isAdmin" slot="end" fill="clear" color="danger" (click)="onDeleteCollaborator(collaborator)">
           <ion-icon name="trash"/>
         </ion-button>
       </ion-item>
     </ion-list>
   
-    <div class="list-add">
+    <div *ngIf="isAdmin" class="list-add">
       <ion-input [(ngModel)]="newCollaborator" placeHolder="New collaborator"/>
       <ion-button (click)="onAddCollaborator()">
         <ion-icon name="add"></ion-icon>
@@ -38,13 +38,13 @@
     <ion-list class="list">
       <ion-item class="list-item" *ngFor="let category of dataService.categories;">
         <ion-label>{{category.category_title}}</ion-label>
-        <ion-button slot="end" fill="clear" color="danger" (click)="onDeleteCategory(category.category_id)">
+        <ion-button *ngIf="isAdmin" slot="end" fill="clear" color="danger" (click)="onDeleteCategory(category.category_id)">
           <ion-icon name="trash"/>
         </ion-button>
       </ion-item>
     </ion-list>
   
-    <div class="list-add">
+    <div *ngIf="isAdmin" class="list-add">
       <ion-input [(ngModel)]="newCategory" placeHolder="New category"/>
       <ion-button (click)="onCreateCategory()">
         <ion-icon name="add"></ion-icon>
